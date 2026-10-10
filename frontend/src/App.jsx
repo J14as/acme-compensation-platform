@@ -6,7 +6,7 @@ import InsightsView from './components/InsightsView';
 import SalaryModal from './components/SalaryModal';
 import HistoryModal from './components/HistoryModal';
 import NewEmployeeModal from './components/NewEmployeeModal';
-import { CheckCircle2 } from 'lucide-react';
+import { Check } from 'lucide-react';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState('directory');
@@ -23,36 +23,34 @@ export default function App() {
   };
 
   const handleSalaryUpdated = (updatedEmployee) => {
-    showToast(`Salary for ${updatedEmployee.full_name} updated and recorded in audit log.`);
+    showToast(`Salary for ${updatedEmployee.full_name} updated successfully.`);
   };
 
   const handleEmployeeCreated = (newEmployee) => {
-    showToast(`Employee ${newEmployee.full_name} (${newEmployee.employee_code}) successfully onboarded.`);
+    showToast(`Employee ${newEmployee.full_name} (${newEmployee.employee_code}) added.`);
   };
 
   return (
-    <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+    <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', background: 'var(--bg-page)', width: '100%' }}>
       {/* Toast Notification */}
       {toastMessage && (
         <div style={{
           position: 'fixed',
           top: '80px',
-          right: '24px',
+          right: '32px',
           zIndex: 9999,
-          background: 'rgba(16, 185, 129, 0.95)',
+          background: 'var(--primary)',
           color: '#ffffff',
           padding: '12px 20px',
           borderRadius: 'var(--radius-md)',
-          boxShadow: 'var(--shadow-xl)',
+          boxShadow: 'var(--shadow-modal)',
           display: 'flex',
           alignItems: 'center',
           gap: '10px',
           fontSize: '14px',
           fontWeight: '600',
-          backdropFilter: 'blur(8px)',
-          animation: 'fadeIn 0.2s ease-out',
         }}>
-          <CheckCircle2 size={18} />
+          <Check size={18} />
           <span>{toastMessage}</span>
         </div>
       )}
@@ -64,13 +62,12 @@ export default function App() {
         onOpenNewEmployeeModal={() => setIsNewEmployeeOpen(true)}
       />
 
-      {/* Content Area */}
+      {/* Content Area - Full Screen Width with comfortable edge padding */}
       <main style={{
-        maxWidth: '1440px',
         width: '100%',
-        margin: '0 auto',
-        padding: '0 24px 60px',
+        padding: '0 32px 60px',
         flex: 1,
+        boxSizing: 'border-box',
       }}>
         {activeTab === 'directory' && (
           <EmployeeDirectory
@@ -111,21 +108,22 @@ export default function App() {
         />
       )}
 
-      {/* Enterprise Footer */}
+      {/* Enterprise Full-Width Footer */}
       <footer style={{
-        borderTop: '1px solid var(--border-subtle)',
-        padding: '24px',
-        textAlign: 'center',
+        borderTop: '1px solid var(--border-light)',
+        padding: '24px 32px',
         fontSize: '13px',
-        color: 'var(--text-dim)',
-        background: 'var(--bg-primary)',
+        color: 'var(--text-muted)',
+        background: '#ffffff',
+        width: '100%',
+        boxSizing: 'border-box',
       }}>
-        <div style={{ maxWidth: '1440px', margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <div style={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <div>
-            ACME Corporation • Global Compensation & Workforce Intelligence Platform
+            <strong>ACME Corporation</strong> • Global Workforce Salary Management Platform
           </div>
           <div>
-            Relational DB Engine: SQLite (WAL Mode) • Backend: Ruby on Rails 8 API • Client: React 18
+            10,000 Employees • SQLite Relational Engine (WAL Mode) • Rails 8 API • React
           </div>
         </div>
       </footer>

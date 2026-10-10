@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { HelpCircle, Sparkles, Trophy, Search, ChevronRight, CheckCircle2, DollarSign } from 'lucide-react';
+import { HelpCircle, Trophy } from 'lucide-react';
 import { Api } from '../services/api';
 
 const QUICK_PROMPTS = [
@@ -14,7 +14,6 @@ const QUICK_PROMPTS = [
 export default function InsightsView() {
   const [insights, setInsights] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [searchQuery, setSearchQuery] = useState('');
   const [activeFilter, setActiveFilter] = useState('All Questions');
 
   useEffect(() => {
@@ -37,61 +36,41 @@ export default function InsightsView() {
   const topEarners = insights?.top_earners || [];
 
   const filteredAnswers = keyAnswers.filter((item) => {
-    const q = searchQuery.toLowerCase();
-    const matchesSearch = item.question.toLowerCase().includes(q) || item.answer.toLowerCase().includes(q);
-
-    if (activeFilter === 'Overall Budget') return item.question.includes('overall') && matchesSearch;
-    if (activeFilter === 'Department Drivers') return item.question.includes('department') && matchesSearch;
-    if (activeFilter === 'Regional Offices') return item.question.includes('geographic') && matchesSearch;
-    if (activeFilter === 'Median Benchmark') return item.question.includes('median') && matchesSearch;
-    if (activeFilter === 'Audit Activity') return item.question.includes('audit') && matchesSearch;
-
-    return matchesSearch;
+    if (activeFilter === 'Overall Budget') return item.question.includes('overall');
+    if (activeFilter === 'Department Drivers') return item.question.includes('department');
+    if (activeFilter === 'Regional Offices') return item.question.includes('geographic');
+    if (activeFilter === 'Median Benchmark') return item.question.includes('median');
+    if (activeFilter === 'Audit Activity') return item.question.includes('audit');
+    return true;
   });
 
   return (
-    <div className="fade-in" style={{ padding: '24px 0' }}>
-      {/* Hero Header */}
-      <div style={{
-        background: 'linear-gradient(135deg, rgba(99, 102, 241, 0.15) 0%, rgba(139, 92, 246, 0.1) 100%)',
-        border: '1px solid rgba(99, 102, 241, 0.3)',
-        borderRadius: 'var(--radius-lg)',
-        padding: '28px',
-        marginBottom: '28px',
-        position: 'relative',
-        overflow: 'hidden',
-      }}>
-        <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '20px' }}>
-          <div>
-            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', padding: '4px 10px', borderRadius: '999px', background: 'rgba(99, 102, 241, 0.2)', color: 'var(--primary-light)', fontSize: '12px', fontWeight: '700', marginBottom: '12px' }}>
-              <Sparkles size={14} />
-              EXECUTIVE COMPENSATION INTELLIGENCE
-            </div>
-            <h1 style={{ fontSize: '26px', fontWeight: '800', color: '#fff', margin: 0 }}>
-              How Does ACME Pay People?
-            </h1>
-            <p style={{ fontSize: '14px', color: 'var(--text-muted)', marginTop: '8px', maxWidth: '750px' }}>
-              Instant clarity on organization-wide compensation distribution, departmental cost drivers, regional spend parity, and top compensation outliers.
-            </p>
-          </div>
-        </div>
+    <div style={{ padding: '24px 0', width: '100%' }}>
+      {/* Header */}
+      <div style={{ marginBottom: '28px' }}>
+        <h1 style={{ fontSize: '24px', fontWeight: '800', color: 'var(--text-main)', margin: 0, letterSpacing: '-0.3px' }}>
+          Organizational Compensation Intelligence
+        </h1>
+        <p style={{ fontSize: '14px', color: 'var(--text-muted)', marginTop: '4px' }}>
+          Key executive answers explaining how ACME pays its people across departments, regions, and executive bands
+        </p>
 
-        {/* Quick Question Chips */}
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginTop: '20px' }}>
+        {/* Filter Pills */}
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', marginTop: '18px' }}>
           {QUICK_PROMPTS.map((prompt) => (
             <button
               key={prompt}
-              onClick={() => { setActiveFilter(prompt); setSearchQuery(''); }}
+              onClick={() => setActiveFilter(prompt)}
               style={{
-                background: activeFilter === prompt ? 'var(--primary)' : 'var(--bg-card)',
-                color: activeFilter === prompt ? '#fff' : 'var(--text-muted)',
-                border: '1px solid var(--border-subtle)',
+                background: activeFilter === prompt ? 'var(--primary)' : '#ffffff',
+                color: activeFilter === prompt ? '#ffffff' : 'var(--text-secondary)',
+                border: '1px solid ' + (activeFilter === prompt ? 'var(--primary)' : 'var(--border-light)'),
                 borderRadius: '999px',
-                padding: '6px 14px',
-                fontSize: '12px',
+                padding: '7px 16px',
+                fontSize: '13px',
                 fontWeight: '600',
                 cursor: 'pointer',
-                transition: 'all 0.2s',
+                transition: 'all 0.15s',
               }}
             >
               {prompt}
@@ -100,56 +79,36 @@ export default function InsightsView() {
         </div>
       </div>
 
-      {/* Structured Executive Q&A Cards */}
+      {/* Structured Q&A Cards */}
       <div style={{ marginBottom: '32px' }}>
-        <h2 style={{ fontSize: '18px', fontWeight: '700', color: '#fff', marginBottom: '16px' }}>
-          Compensation Governance Answers
-        </h2>
-
         {loading ? (
-          <div style={{ textAlign: 'center', padding: '40px 0', color: 'var(--text-muted)' }}>
-            <div style={{ display: 'inline-block', width: '28px', height: '28px', border: '3px solid var(--border-subtle)', borderTopColor: 'var(--primary)', borderRadius: '50%', animation: 'spin 0.8s linear infinite' }} />
-            <p style={{ marginTop: '12px', fontSize: '14px' }}>Formulating executive intelligence answers...</p>
+          <div style={{ textAlign: 'center', padding: '50px 0', color: 'var(--text-muted)' }}>
+            Loading executive answers...
           </div>
         ) : (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
             {filteredAnswers.map((item, idx) => (
-              <div
-                key={idx}
-                style={{
-                  background: 'var(--bg-card)',
-                  border: '1px solid var(--border-subtle)',
-                  borderRadius: 'var(--radius-lg)',
-                  padding: '20px',
-                  boxShadow: 'var(--shadow-sm)',
-                  transition: 'transform 0.2s, border-color 0.2s',
-                }}
-              >
+              <div key={idx} className="card" style={{ padding: '20px 24px' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '10px' }}>
-                  <div style={{
-                    width: '26px',
-                    height: '26px',
-                    borderRadius: '50%',
-                    background: 'rgba(99, 102, 241, 0.2)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    color: 'var(--primary-light)',
+                  <span style={{
                     fontSize: '12px',
                     fontWeight: '700',
+                    color: 'var(--text-muted)',
+                    background: 'var(--bg-subtle)',
+                    padding: '3px 8px',
+                    borderRadius: '4px',
                   }}>
-                    Q
-                  </div>
-                  <h3 style={{ fontSize: '15px', fontWeight: '700', color: '#fff', margin: 0 }}>
+                    Q{idx + 1}
+                  </span>
+                  <h3 style={{ fontSize: '16px', fontWeight: '700', color: 'var(--text-main)', margin: 0 }}>
                     {item.question}
                   </h3>
                 </div>
-
                 <div style={{
-                  paddingLeft: '36px',
+                  paddingLeft: '34px',
                   fontSize: '14px',
-                  color: 'var(--text-main)',
-                  lineHeight: '1.6',
+                  color: 'var(--text-secondary)',
+                  lineHeight: '1.7',
                 }}>
                   {item.answer}
                 </div>
@@ -159,17 +118,11 @@ export default function InsightsView() {
         )}
       </div>
 
-      {/* Top 10 Earners Table */}
-      <div style={{
-        background: 'var(--bg-card)',
-        border: '1px solid var(--border-subtle)',
-        borderRadius: 'var(--radius-lg)',
-        padding: '24px',
-        boxShadow: 'var(--shadow-sm)',
-      }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '18px' }}>
-          <Trophy size={18} color="var(--amber)" />
-          <h2 style={{ fontSize: '16px', fontWeight: '700', color: '#fff', margin: 0 }}>
+      {/* Top 10 Compensation Outliers */}
+      <div className="card">
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '20px' }}>
+          <Trophy size={18} color="var(--amber-text)" />
+          <h2 style={{ fontSize: '17px', fontWeight: '700', color: 'var(--text-main)', margin: 0 }}>
             Top 10 Compensation Outliers (USD Benchmark)
           </h2>
         </div>
@@ -178,40 +131,40 @@ export default function InsightsView() {
           <table className="data-table">
             <thead>
               <tr>
-                <th>Rank</th>
+                <th style={{ width: '60px' }}>Rank</th>
                 <th>Employee</th>
-                <th>Department & Title</th>
+                <th>Role & Department</th>
                 <th>Region</th>
                 <th style={{ textAlign: 'right' }}>Nominal Base</th>
-                <th style={{ textAlign: 'right' }}>Total Compensation (USD)</th>
+                <th style={{ textAlign: 'right' }}>Total (USD Converted)</th>
               </tr>
             </thead>
             <tbody>
               {topEarners.map((emp, index) => (
                 <tr key={emp.id}>
-                  <td style={{ fontWeight: '700', color: index < 3 ? 'var(--amber)' : 'var(--text-dim)', width: '60px' }}>
+                  <td style={{ fontWeight: '700', color: index < 3 ? 'var(--amber-text)' : 'var(--text-muted)', fontSize: '15px' }}>
                     #{index + 1}
                   </td>
                   <td>
-                    <div style={{ fontWeight: '600', color: '#fff' }}>{emp.name}</div>
-                    <div style={{ fontSize: '12px', color: 'var(--text-dim)', fontFamily: 'var(--font-mono)' }}>
+                    <div style={{ fontWeight: '700', color: 'var(--text-main)', fontSize: '15px' }}>{emp.name}</div>
+                    <div style={{ fontSize: '13px', color: 'var(--text-muted)' }}>
                       {emp.employee_code}
                     </div>
                   </td>
                   <td>
-                    <div style={{ color: 'var(--text-main)' }}>{emp.job_title}</div>
-                    <span className="badge badge-dept" style={{ marginTop: '2px' }}>{emp.department}</span>
+                    <div style={{ color: 'var(--text-main)', fontSize: '14px', fontWeight: '500' }}>{emp.job_title}</div>
+                    <span className="badge badge-dept" style={{ marginTop: '4px' }}>{emp.department}</span>
                   </td>
                   <td>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                      <span>{emp.country}</span>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                      <span style={{ fontSize: '14px', fontWeight: '500' }}>{emp.country}</span>
                       <span className="badge badge-currency">{emp.currency}</span>
                     </div>
                   </td>
-                  <td style={{ textAlign: 'right', fontFamily: 'var(--font-mono)' }}>
+                  <td style={{ textAlign: 'right', fontSize: '15px', fontWeight: '600' }} className="tabular-nums">
                     {emp.currency} {Number(emp.base_salary).toLocaleString()}
                   </td>
-                  <td style={{ textAlign: 'right', fontWeight: '700', color: 'var(--emerald)', fontFamily: 'var(--font-mono)' }}>
+                  <td style={{ textAlign: 'right', fontWeight: '700', color: 'var(--emerald-text)', fontSize: '15px' }} className="tabular-nums">
                     ${Number(emp.total_compensation_usd).toLocaleString()} USD
                   </td>
                 </tr>

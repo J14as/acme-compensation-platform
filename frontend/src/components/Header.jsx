@@ -1,72 +1,65 @@
 import React from 'react';
-import { BarChart3, Users, HelpCircle, UserPlus, ShieldCheck, Globe } from 'lucide-react';
+import { Users, BarChart3, HelpCircle, UserPlus } from 'lucide-react';
 
 export default function Header({ activeTab, setActiveTab, onOpenNewEmployeeModal }) {
   return (
     <header style={{
-      background: 'rgba(17, 24, 39, 0.95)',
-      backdropFilter: 'blur(12px)',
-      borderBottom: '1px solid var(--border-subtle)',
+      background: '#ffffff',
+      borderBottom: '1px solid var(--border-light)',
       position: 'sticky',
       top: 0,
       zIndex: 50,
-      padding: '0 24px',
+      padding: '0 32px',
+      width: '100%',
+      boxSizing: 'border-box',
     }}>
       <div style={{
-        maxWidth: '1440px',
-        margin: '0 auto',
+        width: '100%',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
         height: '70px',
       }}>
-        {/* Brand & System Status */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-            <div style={{
-              width: '36px',
-              height: '36px',
-              borderRadius: '10px',
-              background: 'linear-gradient(135deg, #6366f1 0%, #4338ca 100%)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              boxShadow: '0 0 15px rgba(99, 102, 241, 0.4)',
-            }}>
-              <Globe size={20} color="#fff" />
+        {/* Brand & Organization Title */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+          <div style={{
+            width: '36px',
+            height: '36px',
+            borderRadius: '8px',
+            background: 'var(--primary)',
+            color: '#ffffff',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            fontWeight: '800',
+            fontSize: '16px',
+            letterSpacing: '-0.5px',
+          }}>
+            A
+          </div>
+          <div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <span style={{ fontSize: '17px', fontWeight: '800', color: 'var(--text-main)', letterSpacing: '-0.3px' }}>
+                ACME
+              </span>
+              <span style={{ color: 'var(--border-strong)', fontSize: '15px' }}>/</span>
+              <span style={{ fontSize: '15px', fontWeight: '600', color: 'var(--text-secondary)' }}>
+                Salary Management
+              </span>
             </div>
-            <div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <span style={{ fontSize: '18px', fontWeight: '800', letterSpacing: '-0.5px', color: '#fff' }}>
-                  ACME <span style={{ color: 'var(--primary-light)' }}>Comp</span>
-                </span>
-                <span style={{
-                  fontSize: '11px',
-                  fontWeight: '700',
-                  padding: '2px 6px',
-                  borderRadius: '4px',
-                  background: 'rgba(99, 102, 241, 0.2)',
-                  color: 'var(--primary-light)',
-                  border: '1px solid rgba(99, 102, 241, 0.3)',
-                }}>
-                  ENTERPRISE
-                </span>
-              </div>
-              <p style={{ fontSize: '11px', color: 'var(--text-dim)', margin: 0, textAlign: 'left' }}>
-                10,000 Global Workforce • 7 Regions
-              </p>
+            <div style={{ fontSize: '12px', color: 'var(--text-muted)' }}>
+              10,000 Employees • Multi-Currency Intelligence
             </div>
           </div>
         </div>
 
-        {/* Central Navigation Tabs */}
+        {/* Minimal Navigation Tabs */}
         <nav style={{
           display: 'flex',
           gap: '6px',
-          background: 'var(--bg-primary)',
+          background: 'var(--bg-subtle)',
           padding: '4px',
-          borderRadius: 'var(--radius-lg)',
-          border: '1px solid var(--border-subtle)',
+          borderRadius: 'var(--radius-md)',
         }}>
           <button
             onClick={() => setActiveTab('directory')}
@@ -74,15 +67,16 @@ export default function Header({ activeTab, setActiveTab, onOpenNewEmployeeModal
               display: 'flex',
               alignItems: 'center',
               gap: '8px',
-              padding: '8px 16px',
-              fontSize: '13px',
-              fontWeight: '600',
-              borderRadius: 'var(--radius-md)',
+              padding: '8px 18px',
+              fontSize: '14px',
+              fontWeight: activeTab === 'directory' ? '700' : '500',
+              borderRadius: 'var(--radius-sm)',
               border: 'none',
               cursor: 'pointer',
-              background: activeTab === 'directory' ? 'var(--primary)' : 'transparent',
-              color: activeTab === 'directory' ? '#fff' : 'var(--text-muted)',
-              transition: 'all 0.2s',
+              background: activeTab === 'directory' ? '#ffffff' : 'transparent',
+              color: activeTab === 'directory' ? 'var(--text-main)' : 'var(--text-muted)',
+              boxShadow: activeTab === 'directory' ? 'var(--shadow-xs)' : 'none',
+              transition: 'all 0.15s ease',
             }}
           >
             <Users size={16} />
@@ -95,15 +89,16 @@ export default function Header({ activeTab, setActiveTab, onOpenNewEmployeeModal
               display: 'flex',
               alignItems: 'center',
               gap: '8px',
-              padding: '8px 16px',
-              fontSize: '13px',
-              fontWeight: '600',
-              borderRadius: 'var(--radius-md)',
+              padding: '8px 18px',
+              fontSize: '14px',
+              fontWeight: activeTab === 'analytics' ? '700' : '500',
+              borderRadius: 'var(--radius-sm)',
               border: 'none',
               cursor: 'pointer',
-              background: activeTab === 'analytics' ? 'var(--primary)' : 'transparent',
-              color: activeTab === 'analytics' ? '#fff' : 'var(--text-muted)',
-              transition: 'all 0.2s',
+              background: activeTab === 'analytics' ? '#ffffff' : 'transparent',
+              color: activeTab === 'analytics' ? 'var(--text-main)' : 'var(--text-muted)',
+              boxShadow: activeTab === 'analytics' ? 'var(--shadow-xs)' : 'none',
+              transition: 'all 0.15s ease',
             }}
           >
             <BarChart3 size={16} />
@@ -116,59 +111,61 @@ export default function Header({ activeTab, setActiveTab, onOpenNewEmployeeModal
               display: 'flex',
               alignItems: 'center',
               gap: '8px',
-              padding: '8px 16px',
-              fontSize: '13px',
-              fontWeight: '600',
-              borderRadius: 'var(--radius-md)',
+              padding: '8px 18px',
+              fontSize: '14px',
+              fontWeight: activeTab === 'insights' ? '700' : '500',
+              borderRadius: 'var(--radius-sm)',
               border: 'none',
               cursor: 'pointer',
-              background: activeTab === 'insights' ? 'var(--primary)' : 'transparent',
-              color: activeTab === 'insights' ? '#fff' : 'var(--text-muted)',
-              transition: 'all 0.2s',
+              background: activeTab === 'insights' ? '#ffffff' : 'transparent',
+              color: activeTab === 'insights' ? 'var(--text-main)' : 'var(--text-muted)',
+              boxShadow: activeTab === 'insights' ? 'var(--shadow-xs)' : 'none',
+              transition: 'all 0.15s ease',
             }}
           >
             <HelpCircle size={16} />
-            Ask Org Pay
+            Compensation Q&A
           </button>
         </nav>
 
-        {/* Right Section: Add Employee & HR Persona */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
+        {/* User Persona & Add Action */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
           <button
             onClick={onOpenNewEmployeeModal}
-            className="btn btn-primary btn-sm"
+            className="btn btn-primary"
+            style={{ padding: '8px 16px', fontSize: '13px' }}
           >
-            <UserPlus size={16} />
+            <UserPlus size={15} />
             Add Employee
           </button>
 
           <div style={{
             display: 'flex',
             alignItems: 'center',
-            gap: '10px',
-            paddingLeft: '14px',
-            borderLeft: '1px solid var(--border-subtle)',
+            gap: '12px',
+            paddingLeft: '16px',
+            borderLeft: '1px solid var(--border-light)',
           }}>
             <div style={{
               width: '34px',
               height: '34px',
               borderRadius: '50%',
-              background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
-              color: '#fff',
+              background: 'var(--bg-subtle)',
+              border: '1px solid var(--border-light)',
+              color: 'var(--text-main)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              fontSize: '12px',
+              fontSize: '13px',
               fontWeight: '700',
             }}>
               SJ
             </div>
             <div style={{ textAlign: 'left' }}>
-              <div style={{ fontSize: '13px', fontWeight: '600', color: '#fff', display: 'flex', alignItems: 'center', gap: '4px' }}>
+              <div style={{ fontSize: '14px', fontWeight: '700', color: 'var(--text-main)' }}>
                 Sarah Jenkins
-                <ShieldCheck size={13} color="#10b981" />
               </div>
-              <div style={{ fontSize: '11px', color: 'var(--text-dim)' }}>
+              <div style={{ fontSize: '12px', color: 'var(--text-muted)' }}>
                 HR Manager (Global)
               </div>
             </div>

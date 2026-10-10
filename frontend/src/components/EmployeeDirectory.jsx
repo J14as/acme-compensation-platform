@@ -1,15 +1,15 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Search, Filter, RotateCcw, ArrowUpDown, History, DollarSign, ChevronLeft, ChevronRight, AlertCircle, CheckCircle } from 'lucide-react';
+import { Search, RotateCcw, ArrowUpDown, History, DollarSign, ChevronLeft, ChevronRight, AlertCircle } from 'lucide-react';
 import { Api } from '../services/api';
 
 const COUNTRY_FLAGS = {
-  US: '🇺🇸 US',
-  GB: '🇬🇧 UK',
-  IN: '🇮🇳 India',
-  DE: '🇩🇪 Germany',
-  CA: '🇨🇦 Canada',
-  SG: '🇸🇬 Singapore',
-  AU: '🇦🇺 Australia',
+  US: 'United States',
+  GB: 'United Kingdom',
+  IN: 'India',
+  DE: 'Germany',
+  CA: 'Canada',
+  SG: 'Singapore',
+  AU: 'Australia',
 };
 
 const CURRENCY_SYMBOLS = {
@@ -101,34 +101,27 @@ export default function EmployeeDirectory({ onOpenSalaryModal, onOpenHistoryModa
   };
 
   return (
-    <div className="fade-in" style={{ padding: '24px 0' }}>
-      {/* Top Filter and Search Bar */}
-      <div style={{
-        background: 'var(--bg-card)',
-        border: '1px solid var(--border-subtle)',
-        borderRadius: 'var(--radius-lg)',
-        padding: '20px',
-        marginBottom: '24px',
-        boxShadow: 'var(--shadow-sm)',
-      }}>
+    <div style={{ padding: '24px 0', width: '100%' }}>
+      {/* Search and Filters Bar */}
+      <div className="card" style={{ marginBottom: '24px', padding: '20px 24px' }}>
         <div style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))',
-          gap: '14px',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+          gap: '16px',
           alignItems: 'end',
         }}>
           {/* Search Box */}
-          <div className="form-group" style={{ gridColumn: 'span 2', minWidth: '280px', marginBottom: 0 }}>
-            <label className="form-label">Search Directory</label>
+          <div className="form-group" style={{ gridColumn: 'span 2', minWidth: '300px', marginBottom: 0 }}>
+            <label className="form-label">Search Employee</label>
             <div style={{ position: 'relative' }}>
-              <Search size={16} color="var(--text-dim)" style={{ position: 'absolute', left: '12px', top: '12px' }} />
+              <Search size={18} color="var(--text-muted)" style={{ position: 'absolute', left: '14px', top: '13px' }} />
               <input
                 type="text"
-                placeholder="Search by name, code (e.g. ACM-00042), email, or title..."
+                placeholder="Search by name, employee code (e.g. ACM-00042), or title..."
                 value={search}
                 onChange={(e) => { setSearch(e.target.value); setPage(1); }}
                 className="form-input"
-                style={{ width: '100%', paddingLeft: '38px' }}
+                style={{ width: '100%', paddingLeft: '42px', height: '44px', fontSize: '14px' }}
               />
             </div>
           </div>
@@ -140,6 +133,7 @@ export default function EmployeeDirectory({ onOpenSalaryModal, onOpenHistoryModa
               value={department}
               onChange={(e) => { setDepartment(e.target.value); setPage(1); }}
               className="form-select"
+              style={{ height: '44px', fontSize: '14px' }}
             >
               <option value="">All Departments</option>
               {filters.departments?.map((dept) => (
@@ -155,6 +149,7 @@ export default function EmployeeDirectory({ onOpenSalaryModal, onOpenHistoryModa
               value={country}
               onChange={(e) => { setCountry(e.target.value); setPage(1); }}
               className="form-select"
+              style={{ height: '44px', fontSize: '14px' }}
             >
               <option value="">All Countries</option>
               {filters.countries?.map((c) => (
@@ -170,6 +165,7 @@ export default function EmployeeDirectory({ onOpenSalaryModal, onOpenHistoryModa
               value={currency}
               onChange={(e) => { setCurrency(e.target.value); setPage(1); }}
               className="form-select"
+              style={{ height: '44px', fontSize: '14px' }}
             >
               <option value="">All Currencies</option>
               {filters.currencies?.map((curr) => (
@@ -185,6 +181,7 @@ export default function EmployeeDirectory({ onOpenSalaryModal, onOpenHistoryModa
               value={status}
               onChange={(e) => { setStatus(e.target.value); setPage(1); }}
               className="form-select"
+              style={{ height: '44px', fontSize: '14px' }}
             >
               <option value="">All Statuses</option>
               <option value="active">Active</option>
@@ -197,7 +194,7 @@ export default function EmployeeDirectory({ onOpenSalaryModal, onOpenHistoryModa
           <button
             onClick={handleResetFilters}
             className="btn btn-secondary"
-            style={{ height: '42px' }}
+            style={{ height: '44px', padding: '0 18px', fontSize: '14px' }}
             title="Clear all filters"
           >
             <RotateCcw size={15} />
@@ -215,27 +212,28 @@ export default function EmployeeDirectory({ onOpenSalaryModal, onOpenHistoryModa
         padding: '0 4px',
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-          <h2 style={{ fontSize: '18px', fontWeight: '700', color: '#fff', margin: 0 }}>
-            Employee Roster
+          <h2 style={{ fontSize: '18px', fontWeight: '700', color: 'var(--text-main)', margin: 0 }}>
+            Employee Records
           </h2>
           <span style={{
-            fontSize: '12px',
+            fontSize: '13px',
             color: 'var(--text-muted)',
             background: 'var(--bg-subtle)',
-            padding: '2px 8px',
+            padding: '3px 10px',
             borderRadius: '999px',
+            fontWeight: '600',
           }}>
-            {pagination.total_count.toLocaleString()} Total Records
+            {pagination.total_count.toLocaleString()} Total
           </span>
         </div>
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-          <span style={{ fontSize: '13px', color: 'var(--text-dim)' }}>Rows per page:</span>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+          <span style={{ fontSize: '13px', color: 'var(--text-muted)', fontWeight: '500' }}>Rows per page:</span>
           <select
             value={perPage}
             onChange={(e) => { setPerPage(Number(e.target.value)); setPage(1); }}
             className="form-select"
-            style={{ padding: '4px 8px', fontSize: '12px' }}
+            style={{ padding: '4px 10px', fontSize: '13px', height: '34px' }}
           >
             <option value={10}>10</option>
             <option value={25}>25</option>
@@ -245,24 +243,25 @@ export default function EmployeeDirectory({ onOpenSalaryModal, onOpenHistoryModa
         </div>
       </div>
 
-      {/* Table Data View */}
       {error && (
         <div style={{
-          background: 'rgba(244, 63, 94, 0.1)',
-          border: '1px solid var(--rose)',
+          background: 'var(--rose-bg)',
+          border: '1px solid var(--rose-border)',
           borderRadius: 'var(--radius-md)',
-          padding: '16px',
+          padding: '14px 18px',
           display: 'flex',
           alignItems: 'center',
-          gap: '12px',
-          color: '#fecdd3',
+          gap: '10px',
+          color: 'var(--rose-text)',
           marginBottom: '16px',
+          fontSize: '14px',
         }}>
-          <AlertCircle size={20} color="var(--rose)" />
+          <AlertCircle size={18} />
           <span>{error}</span>
         </div>
       )}
 
+      {/* Table Data View */}
       <div className="data-table-container">
         <table className="data-table">
           <thead>
@@ -284,7 +283,7 @@ export default function EmployeeDirectory({ onOpenSalaryModal, onOpenHistoryModa
                 </div>
               </th>
               <th style={{ textAlign: 'right' }}>Bonus</th>
-              <th style={{ textAlign: 'right' }}>Total (USD Benchmark)</th>
+              <th style={{ textAlign: 'right' }}>USD Benchmark</th>
               <th onClick={() => handleSort('status')} style={{ cursor: 'pointer' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
                   Status <ArrowUpDown size={13} color="var(--text-dim)" />
@@ -292,27 +291,25 @@ export default function EmployeeDirectory({ onOpenSalaryModal, onOpenHistoryModa
               </th>
               <th onClick={() => handleSort('effective_date')} style={{ cursor: 'pointer' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                  Effective Date <ArrowUpDown size={13} color="var(--text-dim)" />
+                  Effective <ArrowUpDown size={13} color="var(--text-dim)" />
                 </div>
               </th>
-              <th style={{ textAlign: 'center' }}>Actions</th>
+              <th style={{ textAlign: 'right' }}>Actions</th>
             </tr>
           </thead>
           <tbody>
             {loading ? (
               <tr>
                 <td colSpan={9} style={{ textAlign: 'center', padding: '60px 0', color: 'var(--text-muted)' }}>
-                  <div style={{ display: 'inline-block', width: '28px', height: '28px', border: '3px solid var(--border-subtle)', borderTopColor: 'var(--primary)', borderRadius: '50%', animation: 'spin 0.8s linear infinite' }} />
-                  <p style={{ marginTop: '12px', fontSize: '14px' }}>Loading organizational compensation records...</p>
+                  Loading employee records...
                 </td>
               </tr>
             ) : employees.length === 0 ? (
               <tr>
-                <td colSpan={9} style={{ textAlign: 'center', padding: '60px 0', color: 'var(--text-dim)' }}>
-                  <p style={{ fontSize: '16px', fontWeight: '600', color: 'var(--text-muted)' }}>No employees found</p>
-                  <p style={{ fontSize: '13px', marginTop: '4px' }}>Try broadening your search query or reset your filters.</p>
-                  <button onClick={handleResetFilters} className="btn btn-secondary btn-sm" style={{ marginTop: '14px' }}>
-                    Reset All Filters
+                <td colSpan={9} style={{ textAlign: 'center', padding: '60px 0', color: 'var(--text-muted)' }}>
+                  <p style={{ fontSize: '15px', fontWeight: '600' }}>No employees match the selected criteria</p>
+                  <button onClick={handleResetFilters} className="btn btn-secondary btn-sm" style={{ marginTop: '12px' }}>
+                    Reset Filters
                   </button>
                 </td>
               </tr>
@@ -323,24 +320,26 @@ export default function EmployeeDirectory({ onOpenSalaryModal, onOpenHistoryModa
                   <td>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                       <div style={{
-                        width: '36px',
-                        height: '36px',
+                        width: '38px',
+                        height: '38px',
                         borderRadius: '8px',
-                        background: 'linear-gradient(135deg, rgba(99, 102, 241, 0.2) 0%, rgba(139, 92, 246, 0.2) 100%)',
-                        border: '1px solid rgba(99, 102, 241, 0.3)',
-                        color: 'var(--primary-light)',
+                        background: 'var(--bg-subtle)',
+                        border: '1px solid var(--border-light)',
+                        color: 'var(--text-main)',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
-                        fontSize: '13px',
+                        fontSize: '14px',
                         fontWeight: '700',
                       }}>
                         {emp.first_name[0]}{emp.last_name[0]}
                       </div>
                       <div>
-                        <div style={{ fontWeight: '600', color: '#fff' }}>{emp.full_name}</div>
-                        <div style={{ fontSize: '12px', color: 'var(--text-dim)', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                          <span style={{ fontFamily: 'var(--font-mono)' }}>{emp.employee_code}</span>
+                        <div style={{ fontWeight: '700', fontSize: '15px', color: 'var(--text-main)' }}>
+                          {emp.full_name}
+                        </div>
+                        <div style={{ fontSize: '13px', color: 'var(--text-muted)', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                          <span style={{ fontWeight: '500' }}>{emp.employee_code}</span>
                           <span>•</span>
                           <span>{emp.job_title}</span>
                         </div>
@@ -350,43 +349,38 @@ export default function EmployeeDirectory({ onOpenSalaryModal, onOpenHistoryModa
 
                   {/* Department */}
                   <td>
-                    <span className="badge badge-dept">{emp.department}</span>
+                    <span className="badge badge-dept" style={{ fontSize: '13px', padding: '4px 10px' }}>
+                      {emp.department}
+                    </span>
                   </td>
 
                   {/* Location & Local Currency */}
                   <td>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                      <span>{COUNTRY_FLAGS[emp.country] || emp.country}</span>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                      <span style={{ fontSize: '14px', fontWeight: '500' }}>{COUNTRY_FLAGS[emp.country] || emp.country}</span>
                       <span className="badge badge-currency">{emp.currency}</span>
                     </div>
                   </td>
 
                   {/* Base Salary */}
-                  <td style={{ textAlign: 'right', fontWeight: '700', fontFamily: 'var(--font-mono)' }}>
+                  <td style={{ textAlign: 'right', fontWeight: '700', fontSize: '15px' }} className="tabular-nums">
                     {formatMoney(emp.base_salary, emp.currency)}
                   </td>
 
                   {/* Bonus */}
-                  <td style={{ textAlign: 'right', color: 'var(--text-muted)', fontFamily: 'var(--font-mono)' }}>
+                  <td style={{ textAlign: 'right', color: 'var(--text-muted)', fontSize: '14px' }} className="tabular-nums">
                     {formatMoney(emp.bonus, emp.currency)}
                   </td>
 
-                  {/* Total Compensation in USD Benchmark */}
-                  <td style={{ textAlign: 'right', fontWeight: '600', color: 'var(--emerald)', fontFamily: 'var(--font-mono)' }}>
+                  {/* Total in USD Benchmark */}
+                  <td style={{ textAlign: 'right', fontWeight: '700', fontSize: '15px', color: 'var(--emerald-text)' }} className="tabular-nums">
                     ${Number(emp.total_compensation_usd).toLocaleString()}
-                    <span style={{ fontSize: '10px', color: 'var(--text-dim)', marginLeft: '4px' }}>USD</span>
                   </td>
 
                   {/* Status */}
                   <td>
                     <span className={`badge badge-${emp.status}`}>
-                      <span style={{
-                        width: '6px',
-                        height: '6px',
-                        borderRadius: '50%',
-                        backgroundColor: emp.status === 'active' ? '#10b981' : emp.status === 'on_leave' ? '#f59e0b' : '#f43f5e',
-                      }} />
-                      {emp.status === 'on_leave' ? 'On Leave' : emp.status.toUpperCase()}
+                      {emp.status === 'on_leave' ? 'On Leave' : emp.status.charAt(0).toUpperCase() + emp.status.slice(1)}
                     </span>
                   </td>
 
@@ -396,24 +390,20 @@ export default function EmployeeDirectory({ onOpenSalaryModal, onOpenHistoryModa
                   </td>
 
                   {/* Actions */}
-                  <td style={{ textAlign: 'center' }}>
-                    <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+                  <td style={{ textAlign: 'right' }}>
+                    <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
                       <button
                         onClick={() => onOpenSalaryModal(emp)}
-                        className="btn btn-primary btn-sm"
-                        style={{ padding: '4px 10px', fontSize: '12px' }}
-                        title="Adjust Salary & Log Audit"
+                        className="btn btn-secondary btn-sm"
+                        style={{ padding: '6px 12px', fontSize: '13px' }}
                       >
-                        <DollarSign size={13} />
                         Adjust
                       </button>
                       <button
                         onClick={() => onOpenHistoryModal(emp.id)}
                         className="btn btn-secondary btn-sm"
-                        style={{ padding: '4px 10px', fontSize: '12px' }}
-                        title="View Immutable Audit Trail"
+                        style={{ padding: '6px 12px', fontSize: '13px', color: 'var(--text-muted)' }}
                       >
-                        <History size={13} />
                         History
                       </button>
                     </div>
@@ -430,13 +420,11 @@ export default function EmployeeDirectory({ onOpenSalaryModal, onOpenHistoryModa
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
-        marginTop: '18px',
+        marginTop: '20px',
         padding: '0 4px',
       }}>
-        <div style={{ fontSize: '13px', color: 'var(--text-dim)' }}>
-          Showing {((pagination.current_page - 1) * pagination.per_page) + (employees.length > 0 ? 1 : 0)} to{' '}
-          {Math.min(pagination.current_page * pagination.per_page, pagination.total_count)} of{' '}
-          {pagination.total_count.toLocaleString()} employees
+        <div style={{ fontSize: '13px', color: 'var(--text-muted)', fontWeight: '500' }}>
+          Showing {((pagination.current_page - 1) * pagination.per_page) + (employees.length > 0 ? 1 : 0)}–{Math.min(pagination.current_page * pagination.per_page, pagination.total_count)} of {pagination.total_count.toLocaleString()} employees
         </div>
 
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
@@ -444,13 +432,13 @@ export default function EmployeeDirectory({ onOpenSalaryModal, onOpenHistoryModa
             onClick={() => setPage((p) => Math.max(p - 1, 1))}
             disabled={pagination.current_page <= 1 || loading}
             className="btn btn-secondary btn-sm"
-            style={{ opacity: pagination.current_page <= 1 ? 0.4 : 1 }}
+            style={{ opacity: pagination.current_page <= 1 ? 0.4 : 1, padding: '7px 14px' }}
           >
             <ChevronLeft size={16} />
             Previous
           </button>
 
-          <span style={{ fontSize: '13px', fontWeight: '600', color: '#fff', padding: '0 8px' }}>
+          <span style={{ fontSize: '14px', fontWeight: '600', color: 'var(--text-main)', padding: '0 8px' }}>
             Page {pagination.current_page} of {pagination.total_pages}
           </span>
 
@@ -458,7 +446,7 @@ export default function EmployeeDirectory({ onOpenSalaryModal, onOpenHistoryModa
             onClick={() => setPage((p) => Math.min(p + 1, pagination.total_pages))}
             disabled={pagination.current_page >= pagination.total_pages || loading}
             className="btn btn-secondary btn-sm"
-            style={{ opacity: pagination.current_page >= pagination.total_pages ? 0.4 : 1 }}
+            style={{ opacity: pagination.current_page >= pagination.total_pages ? 0.4 : 1, padding: '7px 14px' }}
           >
             Next
             <ChevronRight size={16} />

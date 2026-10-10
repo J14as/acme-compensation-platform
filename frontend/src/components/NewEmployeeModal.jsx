@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X, UserPlus, AlertCircle, CheckCircle } from 'lucide-react';
+import { X, AlertCircle } from 'lucide-react';
 import { Api } from '../services/api';
 
 const DEPARTMENTS = [
@@ -15,13 +15,13 @@ const DEPARTMENTS = [
 ];
 
 const COUNTRIES = [
-  { code: 'US', currency: 'USD', name: '🇺🇸 United States' },
-  { code: 'GB', currency: 'GBP', name: '🇬🇧 United Kingdom' },
-  { code: 'IN', currency: 'INR', name: '🇮🇳 India' },
-  { code: 'DE', currency: 'EUR', name: '🇩🇪 Germany' },
-  { code: 'CA', currency: 'CAD', name: '🇨🇦 Canada' },
-  { code: 'SG', currency: 'SGD', name: '🇸🇬 Singapore' },
-  { code: 'AU', currency: 'AUD', name: '🇦🇺 Australia' },
+  { code: 'US', currency: 'USD', name: 'United States' },
+  { code: 'GB', currency: 'GBP', name: 'United Kingdom' },
+  { code: 'IN', currency: 'INR', name: 'India' },
+  { code: 'DE', currency: 'EUR', name: 'Germany' },
+  { code: 'CA', currency: 'CAD', name: 'Canada' },
+  { code: 'SG', currency: 'SGD', name: 'Singapore' },
+  { code: 'AU', currency: 'AUD', name: 'Australia' },
 ];
 
 export default function NewEmployeeModal({ onClose, onCreated }) {
@@ -81,52 +81,52 @@ export default function NewEmployeeModal({ onClose, onCreated }) {
 
   return (
     <div className="modal-overlay" onClick={onClose}>
-      <div className="modal-content" onClick={(e) => e.stopPropagation()} style={{ maxWidth: '640px' }}>
+      <div className="modal-content" onClick={(e) => e.stopPropagation()}>
         {/* Header */}
         <div style={{
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
-          padding: '20px 24px',
-          borderBottom: '1px solid var(--border-subtle)',
+          padding: '18px 24px',
+          borderBottom: '1px solid var(--border-light)',
         }}>
           <div>
-            <h2 style={{ fontSize: '18px', fontWeight: '700', color: '#fff', margin: 0 }}>
-              Onboard New Employee
+            <h2 style={{ fontSize: '16px', fontWeight: '600', color: 'var(--text-main)', margin: 0 }}>
+              Add Employee
             </h2>
-            <p style={{ fontSize: '12px', color: 'var(--text-dim)', margin: '2px 0 0' }}>
-              Instantiates employee record with starting compensation audit baseline
+            <p style={{ fontSize: '12px', color: 'var(--text-muted)', margin: '2px 0 0' }}>
+              Add a new employee and initialize compensation baseline
             </p>
           </div>
           <button
             onClick={onClose}
-            style={{ background: 'transparent', border: 'none', cursor: 'pointer', color: 'var(--text-dim)' }}
+            style={{ background: 'transparent', border: 'none', cursor: 'pointer', color: 'var(--text-muted)' }}
           >
-            <X size={20} />
+            <X size={18} />
           </button>
         </div>
 
         {/* Form Body */}
-        <form onSubmit={handleSubmit} style={{ padding: '24px' }}>
+        <form onSubmit={handleSubmit} style={{ padding: '20px 24px' }}>
           {error && (
             <div style={{
-              background: 'rgba(244, 63, 94, 0.1)',
-              border: '1px solid var(--rose)',
+              background: 'var(--rose-bg)',
+              border: '1px solid var(--rose-border)',
               borderRadius: 'var(--radius-md)',
-              padding: '12px',
+              padding: '10px 14px',
               display: 'flex',
               alignItems: 'center',
-              gap: '10px',
-              color: '#fecdd3',
-              marginBottom: '18px',
-              fontSize: '13px',
+              gap: '8px',
+              color: 'var(--rose-text)',
+              marginBottom: '16px',
+              fontSize: '12px',
             }}>
-              <AlertCircle size={16} color="var(--rose)" />
+              <AlertCircle size={15} />
               <span>{error}</span>
             </div>
           )}
 
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px' }}>
             <div className="form-group">
               <label className="form-label">Employee Code *</label>
               <input
@@ -152,7 +152,7 @@ export default function NewEmployeeModal({ onClose, onCreated }) {
             </div>
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px' }}>
             <div className="form-group">
               <label className="form-label">First Name *</label>
               <input
@@ -161,7 +161,7 @@ export default function NewEmployeeModal({ onClose, onCreated }) {
                 value={formData.first_name}
                 onChange={(e) => setFormData({ ...formData, first_name: e.target.value })}
                 className="form-input"
-                placeholder="e.g. Alex"
+                placeholder="Alex"
               />
             </div>
 
@@ -173,7 +173,7 @@ export default function NewEmployeeModal({ onClose, onCreated }) {
                 value={formData.last_name}
                 onChange={(e) => setFormData({ ...formData, last_name: e.target.value })}
                 className="form-input"
-                placeholder="e.g. Mercer"
+                placeholder="Mercer"
               />
             </div>
           </div>
@@ -190,7 +190,7 @@ export default function NewEmployeeModal({ onClose, onCreated }) {
             />
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px' }}>
             <div className="form-group">
               <label className="form-label">Department *</label>
               <select
@@ -212,14 +212,14 @@ export default function NewEmployeeModal({ onClose, onCreated }) {
                 value={formData.job_title}
                 onChange={(e) => setFormData({ ...formData, job_title: e.target.value })}
                 className="form-input"
-                placeholder="e.g. Senior Backend Engineer"
+                placeholder="Senior Backend Engineer"
               />
             </div>
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px' }}>
             <div className="form-group">
-              <label className="form-label">Country / Region *</label>
+              <label className="form-label">Country *</label>
               <select
                 value={formData.country}
                 onChange={(e) => handleCountryChange(e.target.value)}
@@ -232,20 +232,20 @@ export default function NewEmployeeModal({ onClose, onCreated }) {
             </div>
 
             <div className="form-group">
-              <label className="form-label">Currency (Auto-mapped)</label>
+              <label className="form-label">Currency</label>
               <input
                 type="text"
                 readOnly
                 value={formData.currency}
                 className="form-input"
-                style={{ opacity: 0.8 }}
+                style={{ background: 'var(--bg-subtle)' }}
               />
             </div>
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px' }}>
             <div className="form-group">
-              <label className="form-label">Starting Base Salary ({formData.currency}) *</label>
+              <label className="form-label">Base Salary ({formData.currency}) *</label>
               <input
                 type="number"
                 step="any"
@@ -254,7 +254,7 @@ export default function NewEmployeeModal({ onClose, onCreated }) {
                 value={formData.base_salary}
                 onChange={(e) => setFormData({ ...formData, base_salary: e.target.value })}
                 className="form-input"
-                placeholder="e.g. 135000"
+                placeholder="135000"
               />
             </div>
 
@@ -267,7 +267,7 @@ export default function NewEmployeeModal({ onClose, onCreated }) {
                 value={formData.bonus}
                 onChange={(e) => setFormData({ ...formData, bonus: e.target.value })}
                 className="form-input"
-                placeholder="e.g. 15000"
+                placeholder="15000"
               />
             </div>
           </div>
@@ -287,10 +287,10 @@ export default function NewEmployeeModal({ onClose, onCreated }) {
           <div style={{
             display: 'flex',
             justifyContent: 'flex-end',
-            gap: '12px',
+            gap: '10px',
             marginTop: '20px',
             paddingTop: '16px',
-            borderTop: '1px solid var(--border-subtle)',
+            borderTop: '1px solid var(--border-light)',
           }}>
             <button
               type="button"
@@ -305,8 +305,7 @@ export default function NewEmployeeModal({ onClose, onCreated }) {
               className="btn btn-primary"
               disabled={submitting}
             >
-              <UserPlus size={16} />
-              {submitting ? 'Creating Employee...' : 'Create Employee Record'}
+              {submitting ? 'Creating...' : 'Create Employee'}
             </button>
           </div>
         </form>

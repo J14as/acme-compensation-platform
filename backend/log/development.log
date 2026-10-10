@@ -121,3 +121,335 @@ FOREIGN KEY ("employee_id")
   [1m[36mActiveRecord::InternalMetadata Update (0.1ms)[0m  [1m[33mUPDATE "ar_internal_metadata" SET "value" = 'test', "updated_at" = '2026-10-10 19:24:00.943069' WHERE "ar_internal_metadata"."key" = 'environment' /*application='Backend'*/[0m
   [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = 'schema_sha1' ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1 /*application='Backend'*/[0m
   [1m[36mActiveRecord::InternalMetadata Create (0.2ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ('schema_sha1', '3762e0d276f30525d19e7a46f62e9dd835f9d419', '2026-10-10 19:24:00.946631', '2026-10-10 19:24:00.946633') RETURNING "key" /*application='Backend'*/[0m
+Generating image variants require the image_processing gem. Please add `gem "image_processing", "~> 1.2"` to your Gemfile or set `config.active_storage.variant_processor = :disabled`.
+Started GET "/api/v1/employees?page=1&per_page=25&sort_by=id&sort_order=asc" for 127.0.0.1 at 2026-10-11 01:01:15 +0530
+  [1m[36mActiveRecord::SchemaMigration Load (1.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='Backend'*/[0m
+Processing by Api::V1::EmployeesController#index as JSON
+  Parameters: {"page" => "1", "per_page" => "25", "sort_by" => "id", "sort_order" => "asc", "employee" => {}}
+  [1m[36mEmployee Count (26.9ms)[0m  [1m[34mSELECT COUNT(*) FROM "employees" /*action='index',application='Backend',controller='employees'*/[0m
+  ↳ app/controllers/api/v1/employees_controller.rb:37:in 'Api::V1::EmployeesController#index'
+  [1m[36mEmployee Load (6.6ms)[0m  [1m[34mSELECT "employees".* FROM "employees" ORDER BY "employees"."id" ASC LIMIT 25 OFFSET 0 /*action='index',application='Backend',controller='employees'*/[0m
+  ↳ app/controllers/api/v1/employees_controller.rb:45:in 'Enumerable#map'
+  [1m[36mExchangeRate Pluck (0.8ms)[0m  [1m[34mSELECT "exchange_rates"."from_currency", "exchange_rates"."rate" FROM "exchange_rates" WHERE "exchange_rates"."to_currency" = 'USD' /*action='index',application='Backend',controller='employees'*/[0m
+  ↳ app/models/exchange_rate.rb:23:in 'ExchangeRate.rate_map'
+Completed 200 OK in 749ms (Views: 0.9ms | ActiveRecord: 61.9ms (3 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/api/v1/employees?page=1&per_page=25&sort_by=id&sort_order=asc" for 127.0.0.1 at 2026-10-11 01:03:55 +0530
+Processing by Api::V1::EmployeesController#index as JSON
+  Parameters: {"page" => "1", "per_page" => "25", "sort_by" => "id", "sort_order" => "asc", "employee" => {}}
+  [1m[36mEmployee Count (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "employees" /*action='index',application='Backend',controller='employees'*/[0m
+  ↳ app/controllers/api/v1/employees_controller.rb:37:in 'Api::V1::EmployeesController#index'
+  [1m[36mEmployee Load (0.4ms)[0m  [1m[34mSELECT "employees".* FROM "employees" ORDER BY "employees"."id" ASC LIMIT 25 OFFSET 0 /*action='index',application='Backend',controller='employees'*/[0m
+  ↳ app/controllers/api/v1/employees_controller.rb:45:in 'Enumerable#map'
+Completed 200 OK in 17ms (Views: 0.3ms | ActiveRecord: 0.6ms (2 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/api/v1/employees?page=1&per_page=25&sort_by=id&sort_order=asc" for 127.0.0.1 at 2026-10-11 01:06:09 +0530
+Processing by Api::V1::EmployeesController#index as JSON
+  Parameters: {"page" => "1", "per_page" => "25", "sort_by" => "id", "sort_order" => "asc", "employee" => {}}
+  [1m[36mEmployee Count (0.3ms)[0m  [1m[34mSELECT COUNT(*) FROM "employees" /*action='index',application='Backend',controller='employees'*/[0m
+  ↳ app/controllers/api/v1/employees_controller.rb:37:in 'Api::V1::EmployeesController#index'
+  [1m[36mEmployee Load (0.8ms)[0m  [1m[34mSELECT "employees".* FROM "employees" ORDER BY "employees"."id" ASC LIMIT 25 OFFSET 0 /*action='index',application='Backend',controller='employees'*/[0m
+  ↳ app/controllers/api/v1/employees_controller.rb:45:in 'Enumerable#map'
+Completed 200 OK in 15ms (Views: 0.3ms | ActiveRecord: 1.1ms (2 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/api/v1/employees?page=1&per_page=25&sort_by=id&sort_order=asc" for 127.0.0.1 at 2026-10-11 01:08:59 +0530
+Processing by Api::V1::EmployeesController#index as JSON
+  Parameters: {"page" => "1", "per_page" => "25", "sort_by" => "id", "sort_order" => "asc", "employee" => {}}
+  [1m[36mEmployee Count (0.5ms)[0m  [1m[34mSELECT COUNT(*) FROM "employees" /*action='index',application='Backend',controller='employees'*/[0m
+  ↳ app/controllers/api/v1/employees_controller.rb:37:in 'Api::V1::EmployeesController#index'
+  [1m[36mEmployee Load (2.1ms)[0m  [1m[34mSELECT "employees".* FROM "employees" ORDER BY "employees"."id" ASC LIMIT 25 OFFSET 0 /*action='index',application='Backend',controller='employees'*/[0m
+  ↳ app/controllers/api/v1/employees_controller.rb:45:in 'Enumerable#map'
+Completed 200 OK in 19ms (Views: 0.7ms | ActiveRecord: 2.3ms (2 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/api/v1/employees?page=1&per_page=25&sort_by=id&sort_order=asc" for 127.0.0.1 at 2026-10-11 01:09:01 +0530
+Processing by Api::V1::EmployeesController#index as JSON
+  Parameters: {"page" => "1", "per_page" => "25", "sort_by" => "id", "sort_order" => "asc", "employee" => {}}
+  [1m[36mEmployee Count (0.3ms)[0m  [1m[34mSELECT COUNT(*) FROM "employees" /*action='index',application='Backend',controller='employees'*/[0m
+  ↳ app/controllers/api/v1/employees_controller.rb:37:in 'Api::V1::EmployeesController#index'
+  [1m[36mEmployee Load (0.8ms)[0m  [1m[34mSELECT "employees".* FROM "employees" ORDER BY "employees"."id" ASC LIMIT 25 OFFSET 0 /*action='index',application='Backend',controller='employees'*/[0m
+  ↳ app/controllers/api/v1/employees_controller.rb:45:in 'Enumerable#map'
+Completed 200 OK in 13ms (Views: 0.4ms | ActiveRecord: 1.1ms (2 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/api/v1/employees?page=1&per_page=25&sort_by=id&sort_order=asc" for 127.0.0.1 at 2026-10-11 01:09:03 +0530
+Processing by Api::V1::EmployeesController#index as JSON
+  Parameters: {"page" => "1", "per_page" => "25", "sort_by" => "id", "sort_order" => "asc", "employee" => {}}
+  [1m[36mEmployee Count (0.3ms)[0m  [1m[34mSELECT COUNT(*) FROM "employees" /*action='index',application='Backend',controller='employees'*/[0m
+  ↳ app/controllers/api/v1/employees_controller.rb:37:in 'Api::V1::EmployeesController#index'
+  [1m[36mEmployee Load (0.6ms)[0m  [1m[34mSELECT "employees".* FROM "employees" ORDER BY "employees"."id" ASC LIMIT 25 OFFSET 0 /*action='index',application='Backend',controller='employees'*/[0m
+  ↳ app/controllers/api/v1/employees_controller.rb:45:in 'Enumerable#map'
+Completed 200 OK in 21ms (Views: 0.2ms | ActiveRecord: 1.0ms (2 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/api/v1/employees?page=1&per_page=25&sort_by=id&sort_order=asc" for 127.0.0.1 at 2026-10-11 01:09:04 +0530
+Processing by Api::V1::EmployeesController#index as JSON
+  Parameters: {"page" => "1", "per_page" => "25", "sort_by" => "id", "sort_order" => "asc", "employee" => {}}
+  [1m[36mEmployee Count (0.4ms)[0m  [1m[34mSELECT COUNT(*) FROM "employees" /*action='index',application='Backend',controller='employees'*/[0m
+  ↳ app/controllers/api/v1/employees_controller.rb:37:in 'Api::V1::EmployeesController#index'
+  [1m[36mEmployee Load (0.8ms)[0m  [1m[34mSELECT "employees".* FROM "employees" ORDER BY "employees"."id" ASC LIMIT 25 OFFSET 0 /*action='index',application='Backend',controller='employees'*/[0m
+  ↳ app/controllers/api/v1/employees_controller.rb:45:in 'Enumerable#map'
+Completed 200 OK in 20ms (Views: 0.2ms | ActiveRecord: 1.1ms (2 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/api/v1/employees?page=1&per_page=25&sort_by=id&sort_order=asc" for 127.0.0.1 at 2026-10-11 01:09:07 +0530
+Processing by Api::V1::EmployeesController#index as JSON
+  Parameters: {"page" => "1", "per_page" => "25", "sort_by" => "id", "sort_order" => "asc", "employee" => {}}
+  [1m[36mEmployee Count (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "employees" /*action='index',application='Backend',controller='employees'*/[0m
+  ↳ app/controllers/api/v1/employees_controller.rb:37:in 'Api::V1::EmployeesController#index'
+  [1m[36mEmployee Load (1.9ms)[0m  [1m[34mSELECT "employees".* FROM "employees" ORDER BY "employees"."id" ASC LIMIT 25 OFFSET 0 /*action='index',application='Backend',controller='employees'*/[0m
+  ↳ app/controllers/api/v1/employees_controller.rb:45:in 'Enumerable#map'
+Completed 200 OK in 17ms (Views: 0.4ms | ActiveRecord: 2.1ms (2 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/api/v1/employees?page=1&per_page=25&sort_by=id&sort_order=asc" for 127.0.0.1 at 2026-10-11 01:09:45 +0530
+Processing by Api::V1::EmployeesController#index as JSON
+  Parameters: {"page" => "1", "per_page" => "25", "sort_by" => "id", "sort_order" => "asc", "employee" => {}}
+  [1m[36mEmployee Count (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "employees" /*action='index',application='Backend',controller='employees'*/[0m
+  ↳ app/controllers/api/v1/employees_controller.rb:37:in 'Api::V1::EmployeesController#index'
+  [1m[36mEmployee Load (1.7ms)[0m  [1m[34mSELECT "employees".* FROM "employees" ORDER BY "employees"."id" ASC LIMIT 25 OFFSET 0 /*action='index',application='Backend',controller='employees'*/[0m
+  ↳ app/controllers/api/v1/employees_controller.rb:45:in 'Enumerable#map'
+Completed 200 OK in 23ms (Views: 0.3ms | ActiveRecord: 1.9ms (2 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/api/v1/analytics/overview" for 127.0.0.1 at 2026-10-11 01:10:10 +0530
+Started GET "/api/v1/analytics/by_country" for 127.0.0.1 at 2026-10-11 01:10:10 +0530
+Started GET "/api/v1/analytics/by_department" for 127.0.0.1 at 2026-10-11 01:10:10 +0530
+Processing by Api::V1::AnalyticsController#overview as JSON
+  Parameters: {"analytic" => {}}
+Processing by Api::V1::AnalyticsController#by_country as JSON
+  Parameters: {"analytic" => {}}
+  [1m[36mEmployee Count (2.3ms)[0m  [1m[34mSELECT COUNT(*) FROM "employees" /*action='overview',application='Backend',controller='analytics'*/[0m
+  [1m[36mEmployee Load (32.4ms)[0m  [1m[34mSELECT country, currency, COUNT(*) as emp_count, SUM(base_salary) as sum_base, SUM(bonus) as sum_bonus, AVG(base_salary) as avg_local_base FROM "employees" WHERE "employees"."status" = 'active' GROUP BY "employees"."country", "employees"."currency" /*action='by_country',application='Backend',controller='analytics'*/[0m
+Processing by Api::V1::AnalyticsController#by_department as JSON
+  ↳ app/services/analytics_service.rb:6:in 'AnalyticsService.overview'
+  ↳ app/services/analytics_service.rb:104:in 'AnalyticsService.by_country'
+  Parameters: {"analytic" => {}}
+  [1m[36mEmployee Count (0.8ms)[0m  [1m[34mSELECT COUNT(*) FROM "employees" WHERE "employees"."status" = 'active' /*action='overview',application='Backend',controller='analytics'*/[0m
+Completed 200 OK in 54ms (Views: 1.3ms | ActiveRecord: 32.4ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+  [1m[36mEmployee Load (9.3ms)[0m  [1m[34mSELECT department, currency, COUNT(*) as emp_count, SUM(base_salary) as sum_base, SUM(bonus) as sum_bonus FROM "employees" WHERE "employees"."status" = 'active' GROUP BY "employees"."department", "employees"."currency" /*action='by_department',application='Backend',controller='analytics'*/[0m
+  ↳ app/services/analytics_service.rb:73:in 'AnalyticsService.by_department'
+Completed 200 OK in 39ms (Views: 0.2ms | ActiveRecord: 9.3ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+  ↳ app/services/analytics_service.rb:7:in 'AnalyticsService.overview'
+  [1m[36mEmployee Count (0.3ms)[0m  [1m[34mSELECT COUNT(*) FROM "employees" WHERE "employees"."status" = 'on_leave' /*action='overview',application='Backend',controller='analytics'*/[0m
+  ↳ app/services/analytics_service.rb:8:in 'AnalyticsService.overview'
+  [1m[36mEmployee Count (1.6ms)[0m  [1m[34mSELECT COUNT(*) FROM "employees" WHERE "employees"."status" = 'terminated' /*action='overview',application='Backend',controller='analytics'*/[0m
+  ↳ app/services/analytics_service.rb:9:in 'AnalyticsService.overview'
+  [1m[36mEmployee Load (9.4ms)[0m  [1m[34mSELECT currency, SUM(base_salary) as total_base, SUM(bonus) as total_bonus, COUNT(*) as count FROM "employees" WHERE "employees"."status" = 'active' GROUP BY "employees"."currency" /*action='overview',application='Backend',controller='analytics'*/[0m
+Started GET "/api/v1/analytics/salary_bands" for 127.0.0.1 at 2026-10-11 01:10:10 +0530
+  ↳ app/services/analytics_service.rb:19:in 'AnalyticsService.overview'
+  [1m[36mEmployee Pluck (13.3ms)[0m  [1m[34mSELECT "employees"."base_salary", "employees"."currency" FROM "employees" WHERE "employees"."status" = 'active' /*action='overview',application='Backend',controller='analytics'*/[0m
+Started GET "/api/v1/analytics/by_country" for 127.0.0.1 at 2026-10-11 01:10:10 +0530
+  ↳ app/services/analytics_service.rb:34:in 'AnalyticsService.overview'
+Completed 200 OK in 207ms (Views: 0.2ms | ActiveRecord: 28.3ms (6 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/api/v1/analytics/by_department" for 127.0.0.1 at 2026-10-11 01:10:10 +0530
+Processing by Api::V1::AnalyticsController#salary_bands as JSON
+  Parameters: {"analytic" => {}}
+  [1m[36mEmployee Pluck (10.8ms)[0m  [1m[34mSELECT "employees"."base_salary", "employees"."currency" FROM "employees" WHERE "employees"."status" = 'active' /*action='salary_bands',application='Backend',controller='analytics'*/[0m
+  ↳ app/services/analytics_service.rb:140:in 'AnalyticsService.salary_bands'
+Processing by Api::V1::AnalyticsController#by_country as JSON
+Completed 200 OK in 88ms (Views: 0.2ms | ActiveRecord: 10.8ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+  Parameters: {"analytic" => {}}
+  [1m[36mEmployee Load (14.1ms)[0m  [1m[34mSELECT country, currency, COUNT(*) as emp_count, SUM(base_salary) as sum_base, SUM(bonus) as sum_bonus, AVG(base_salary) as avg_local_base FROM "employees" WHERE "employees"."status" = 'active' GROUP BY "employees"."country", "employees"."currency" /*action='by_country',application='Backend',controller='analytics'*/[0m
+  ↳ app/services/analytics_service.rb:104:in 'AnalyticsService.by_country'
+Completed 200 OK in 22ms (Views: 0.2ms | ActiveRecord: 14.1ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/api/v1/analytics/overview" for 127.0.0.1 at 2026-10-11 01:10:11 +0530
+Started GET "/api/v1/analytics/salary_bands" for 127.0.0.1 at 2026-10-11 01:10:11 +0530
+Processing by Api::V1::AnalyticsController#by_department as JSON
+  Parameters: {"analytic" => {}}
+  [1m[36mEmployee Load (17.7ms)[0m  [1m[34mSELECT department, currency, COUNT(*) as emp_count, SUM(base_salary) as sum_base, SUM(bonus) as sum_bonus FROM "employees" WHERE "employees"."status" = 'active' GROUP BY "employees"."department", "employees"."currency" /*action='by_department',application='Backend',controller='analytics'*/[0m
+  ↳ app/services/analytics_service.rb:73:in 'AnalyticsService.by_department'
+Completed 200 OK in 27ms (Views: 0.2ms | ActiveRecord: 16.7ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Processing by Api::V1::AnalyticsController#overview as JSON
+  Parameters: {"analytic" => {}}
+  [1m[36mEmployee Count (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "employees" /*action='overview',application='Backend',controller='analytics'*/[0m
+  ↳ app/services/analytics_service.rb:6:in 'AnalyticsService.overview'
+Processing by Api::V1::AnalyticsController#salary_bands as JSON
+  Parameters: {"analytic" => {}}
+  [1m[36mEmployee Pluck (6.9ms)[0m  [1m[34mSELECT "employees"."base_salary", "employees"."currency" FROM "employees" WHERE "employees"."status" = 'active' /*action='salary_bands',application='Backend',controller='analytics'*/[0m
+  [1m[36mEmployee Count (0.9ms)[0m  [1m[34mSELECT COUNT(*) FROM "employees" WHERE "employees"."status" = 'active' /*action='overview',application='Backend',controller='analytics'*/[0m
+  ↳ app/services/analytics_service.rb:7:in 'AnalyticsService.overview'
+  ↳ app/services/analytics_service.rb:140:in 'AnalyticsService.salary_bands'
+  [1m[36mEmployee Count (0.4ms)[0m  [1m[34mSELECT COUNT(*) FROM "employees" WHERE "employees"."status" = 'on_leave' /*action='overview',application='Backend',controller='analytics'*/[0m
+Completed 200 OK in 67ms (Views: 0.2ms | ActiveRecord: 6.9ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+  ↳ app/services/analytics_service.rb:8:in 'AnalyticsService.overview'
+  [1m[36mEmployee Count (0.3ms)[0m  [1m[34mSELECT COUNT(*) FROM "employees" WHERE "employees"."status" = 'terminated' /*action='overview',application='Backend',controller='analytics'*/[0m
+  ↳ app/services/analytics_service.rb:9:in 'AnalyticsService.overview'
+  [1m[36mEmployee Load (4.6ms)[0m  [1m[34mSELECT currency, SUM(base_salary) as total_base, SUM(bonus) as total_bonus, COUNT(*) as count FROM "employees" WHERE "employees"."status" = 'active' GROUP BY "employees"."currency" /*action='overview',application='Backend',controller='analytics'*/[0m
+  ↳ app/services/analytics_service.rb:19:in 'AnalyticsService.overview'
+  [1m[36mEmployee Pluck (7.5ms)[0m  [1m[34mSELECT "employees"."base_salary", "employees"."currency" FROM "employees" WHERE "employees"."status" = 'active' /*action='overview',application='Backend',controller='analytics'*/[0m
+  ↳ app/services/analytics_service.rb:34:in 'AnalyticsService.overview'
+Completed 200 OK in 155ms (Views: 0.2ms | ActiveRecord: 13.8ms (6 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/api/v1/analytics/insights" for 127.0.0.1 at 2026-10-11 01:10:16 +0530
+Processing by Api::V1::AnalyticsController#insights as JSON
+  Parameters: {"analytic" => {}}
+  [1m[36mEmployee Load (139.4ms)[0m  [1m[34mSELECT "employees"."id", "employees"."employee_code", "employees"."first_name", "employees"."last_name", "employees"."job_title", "employees"."department", "employees"."country", "employees"."currency", "employees"."base_salary", "employees"."bonus" FROM "employees" WHERE "employees"."status" = 'active' /*action='insights',application='Backend',controller='analytics'*/[0m
+  ↳ app/services/analytics_service.rb:161:in 'Enumerable#map'
+  [1m[36mEmployee Count (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "employees" /*action='insights',application='Backend',controller='analytics'*/[0m
+  ↳ app/services/analytics_service.rb:6:in 'AnalyticsService.overview'
+  [1m[36mEmployee Count (1.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "employees" WHERE "employees"."status" = 'active' /*action='insights',application='Backend',controller='analytics'*/[0m
+  ↳ app/services/analytics_service.rb:7:in 'AnalyticsService.overview'
+  [1m[36mEmployee Count (0.5ms)[0m  [1m[34mSELECT COUNT(*) FROM "employees" WHERE "employees"."status" = 'on_leave' /*action='insights',application='Backend',controller='analytics'*/[0m
+  ↳ app/services/analytics_service.rb:8:in 'AnalyticsService.overview'
+  [1m[36mEmployee Count (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "employees" WHERE "employees"."status" = 'terminated' /*action='insights',application='Backend',controller='analytics'*/[0m
+  ↳ app/services/analytics_service.rb:9:in 'AnalyticsService.overview'
+  [1m[36mEmployee Load (7.8ms)[0m  [1m[34mSELECT currency, SUM(base_salary) as total_base, SUM(bonus) as total_bonus, COUNT(*) as count FROM "employees" WHERE "employees"."status" = 'active' GROUP BY "employees"."currency" /*action='insights',application='Backend',controller='analytics'*/[0m
+  ↳ app/services/analytics_service.rb:19:in 'AnalyticsService.overview'
+  [1m[36mEmployee Pluck (7.3ms)[0m  [1m[34mSELECT "employees"."base_salary", "employees"."currency" FROM "employees" WHERE "employees"."status" = 'active' /*action='insights',application='Backend',controller='analytics'*/[0m
+  ↳ app/services/analytics_service.rb:34:in 'AnalyticsService.overview'
+  [1m[36mEmployee Load (10.4ms)[0m  [1m[34mSELECT department, currency, COUNT(*) as emp_count, SUM(base_salary) as sum_base, SUM(bonus) as sum_bonus FROM "employees" WHERE "employees"."status" = 'active' GROUP BY "employees"."department", "employees"."currency" /*action='insights',application='Backend',controller='analytics'*/[0m
+  ↳ app/services/analytics_service.rb:73:in 'AnalyticsService.by_department'
+  [1m[36mEmployee Load (10.2ms)[0m  [1m[34mSELECT country, currency, COUNT(*) as emp_count, SUM(base_salary) as sum_base, SUM(bonus) as sum_bonus, AVG(base_salary) as avg_local_base FROM "employees" WHERE "employees"."status" = 'active' GROUP BY "employees"."country", "employees"."currency" /*action='insights',application='Backend',controller='analytics'*/[0m
+  ↳ app/services/analytics_service.rb:104:in 'AnalyticsService.by_country'
+  [1m[36mSalaryHistory Count (12.7ms)[0m  [1m[34mSELECT COUNT(*) FROM "salary_histories" WHERE (created_at >= '2026-09-10 19:40:17.532148') /*action='insights',application='Backend',controller='analytics'*/[0m
+  ↳ app/services/analytics_service.rb:187:in 'AnalyticsService.insights'
+  [1m[36mSalaryHistory Count (0.3ms)[0m  [1m[34mSELECT COUNT(*) FROM "salary_histories" WHERE "salary_histories"."change_reason" = 'Promotion' /*action='insights',application='Backend',controller='analytics'*/[0m
+  ↳ app/services/analytics_service.rb:188:in 'AnalyticsService.insights'
+  [1m[36mSalaryHistory Count (2.7ms)[0m  [1m[34mSELECT COUNT(*) FROM "salary_histories" /*action='insights',application='Backend',controller='analytics'*/[0m
+  ↳ app/services/analytics_service.rb:211:in 'AnalyticsService.insights'
+Completed 200 OK in 680ms (Views: 0.3ms | ActiveRecord: 193.3ms (12 queries, 0 cached) | GC: 1.1ms)
+
+
+Started GET "/api/v1/analytics/insights" for 127.0.0.1 at 2026-10-11 01:10:17 +0530
+Processing by Api::V1::AnalyticsController#insights as JSON
+  Parameters: {"analytic" => {}}
+  [1m[36mEmployee Load (92.5ms)[0m  [1m[34mSELECT "employees"."id", "employees"."employee_code", "employees"."first_name", "employees"."last_name", "employees"."job_title", "employees"."department", "employees"."country", "employees"."currency", "employees"."base_salary", "employees"."bonus" FROM "employees" WHERE "employees"."status" = 'active' /*action='insights',application='Backend',controller='analytics'*/[0m
+  ↳ app/services/analytics_service.rb:161:in 'Enumerable#map'
+  [1m[36mEmployee Count (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "employees" /*action='insights',application='Backend',controller='analytics'*/[0m
+  ↳ app/services/analytics_service.rb:6:in 'AnalyticsService.overview'
+  [1m[36mEmployee Count (0.7ms)[0m  [1m[34mSELECT COUNT(*) FROM "employees" WHERE "employees"."status" = 'active' /*action='insights',application='Backend',controller='analytics'*/[0m
+  ↳ app/services/analytics_service.rb:7:in 'AnalyticsService.overview'
+  [1m[36mEmployee Count (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "employees" WHERE "employees"."status" = 'on_leave' /*action='insights',application='Backend',controller='analytics'*/[0m
+  ↳ app/services/analytics_service.rb:8:in 'AnalyticsService.overview'
+  [1m[36mEmployee Count (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "employees" WHERE "employees"."status" = 'terminated' /*action='insights',application='Backend',controller='analytics'*/[0m
+  ↳ app/services/analytics_service.rb:9:in 'AnalyticsService.overview'
+  [1m[36mEmployee Load (6.5ms)[0m  [1m[34mSELECT currency, SUM(base_salary) as total_base, SUM(bonus) as total_bonus, COUNT(*) as count FROM "employees" WHERE "employees"."status" = 'active' GROUP BY "employees"."currency" /*action='insights',application='Backend',controller='analytics'*/[0m
+  ↳ app/services/analytics_service.rb:19:in 'AnalyticsService.overview'
+  [1m[36mEmployee Pluck (8.6ms)[0m  [1m[34mSELECT "employees"."base_salary", "employees"."currency" FROM "employees" WHERE "employees"."status" = 'active' /*action='insights',application='Backend',controller='analytics'*/[0m
+  ↳ app/services/analytics_service.rb:34:in 'AnalyticsService.overview'
+  [1m[36mEmployee Load (10.1ms)[0m  [1m[34mSELECT department, currency, COUNT(*) as emp_count, SUM(base_salary) as sum_base, SUM(bonus) as sum_bonus FROM "employees" WHERE "employees"."status" = 'active' GROUP BY "employees"."department", "employees"."currency" /*action='insights',application='Backend',controller='analytics'*/[0m
+  ↳ app/services/analytics_service.rb:73:in 'AnalyticsService.by_department'
+  [1m[36mEmployee Load (4.9ms)[0m  [1m[34mSELECT country, currency, COUNT(*) as emp_count, SUM(base_salary) as sum_base, SUM(bonus) as sum_bonus, AVG(base_salary) as avg_local_base FROM "employees" WHERE "employees"."status" = 'active' GROUP BY "employees"."country", "employees"."currency" /*action='insights',application='Backend',controller='analytics'*/[0m
+  ↳ app/services/analytics_service.rb:104:in 'AnalyticsService.by_country'
+  [1m[36mSalaryHistory Count (1.4ms)[0m  [1m[34mSELECT COUNT(*) FROM "salary_histories" WHERE (created_at >= '2026-09-10 19:40:18.128808') /*action='insights',application='Backend',controller='analytics'*/[0m
+  ↳ app/services/analytics_service.rb:187:in 'AnalyticsService.insights'
+  [1m[36mSalaryHistory Count (0.3ms)[0m  [1m[34mSELECT COUNT(*) FROM "salary_histories" WHERE "salary_histories"."change_reason" = 'Promotion' /*action='insights',application='Backend',controller='analytics'*/[0m
+  ↳ app/services/analytics_service.rb:188:in 'AnalyticsService.insights'
+  [1m[36mSalaryHistory Count (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "salary_histories" /*action='insights',application='Backend',controller='analytics'*/[0m
+  ↳ app/services/analytics_service.rb:211:in 'AnalyticsService.insights'
+Completed 200 OK in 485ms (Views: 0.3ms | ActiveRecord: 125.7ms (12 queries, 0 cached) | GC: 0.6ms)
+
+
+Started GET "/api/v1/analytics/by_country" for 127.0.0.1 at 2026-10-11 01:10:28 +0530
+Started GET "/api/v1/analytics/overview" for 127.0.0.1 at 2026-10-11 01:10:28 +0530
+Started GET "/api/v1/analytics/salary_bands" for 127.0.0.1 at 2026-10-11 01:10:28 +0530
+Processing by Api::V1::AnalyticsController#by_country as JSON
+  Parameters: {"analytic" => {}}
+  [1m[36mEmployee Load (21.2ms)[0m  [1m[34mSELECT country, currency, COUNT(*) as emp_count, SUM(base_salary) as sum_base, SUM(bonus) as sum_bonus, AVG(base_salary) as avg_local_base FROM "employees" WHERE "employees"."status" = 'active' GROUP BY "employees"."country", "employees"."currency" /*action='by_country',application='Backend',controller='analytics'*/[0m
+Processing by Api::V1::AnalyticsController#salary_bands as JSON
+Processing by Api::V1::AnalyticsController#overview as JSON
+  Parameters: {"analytic" => {}}
+  ↳ app/services/analytics_service.rb:104:in 'AnalyticsService.by_country'
+  Parameters: {"analytic" => {}}
+  [1m[36mEmployee Count (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "employees" /*action='overview',application='Backend',controller='analytics'*/[0m
+Completed 200 OK in 44ms (Views: 0.2ms | ActiveRecord: 21.2ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+  [1m[36mEmployee Pluck (12.0ms)[0m  [1m[34mSELECT "employees"."base_salary", "employees"."currency" FROM "employees" WHERE "employees"."status" = 'active' /*action='salary_bands',application='Backend',controller='analytics'*/[0m
+  ↳ app/services/analytics_service.rb:140:in 'AnalyticsService.salary_bands'
+  ↳ app/services/analytics_service.rb:6:in 'AnalyticsService.overview'
+Completed 200 OK in 79ms (Views: 0.2ms | ActiveRecord: 12.0ms (1 query, 0 cached) | GC: 0.2ms)
+
+
+  [1m[36mEmployee Count (1.3ms)[0m  [1m[34mSELECT COUNT(*) FROM "employees" WHERE "employees"."status" = 'active' /*action='overview',application='Backend',controller='analytics'*/[0m
+  ↳ app/services/analytics_service.rb:7:in 'AnalyticsService.overview'
+  [1m[36mEmployee Count (0.3ms)[0m  [1m[34mSELECT COUNT(*) FROM "employees" WHERE "employees"."status" = 'on_leave' /*action='overview',application='Backend',controller='analytics'*/[0m
+Started GET "/api/v1/analytics/by_department" for 127.0.0.1 at 2026-10-11 01:10:28 +0530
+  ↳ app/services/analytics_service.rb:8:in 'AnalyticsService.overview'
+  [1m[36mEmployee Count (0.5ms)[0m  [1m[34mSELECT COUNT(*) FROM "employees" WHERE "employees"."status" = 'terminated' /*action='overview',application='Backend',controller='analytics'*/[0m
+  ↳ app/services/analytics_service.rb:9:in 'AnalyticsService.overview'
+  [1m[36mEmployee Load (4.4ms)[0m  [1m[34mSELECT currency, SUM(base_salary) as total_base, SUM(bonus) as total_bonus, COUNT(*) as count FROM "employees" WHERE "employees"."status" = 'active' GROUP BY "employees"."currency" /*action='overview',application='Backend',controller='analytics'*/[0m
+Started GET "/api/v1/analytics/by_country" for 127.0.0.1 at 2026-10-11 01:10:28 +0530
+  ↳ app/services/analytics_service.rb:19:in 'AnalyticsService.overview'
+  [1m[36mEmployee Pluck (19.2ms)[0m  [1m[34mSELECT "employees"."base_salary", "employees"."currency" FROM "employees" WHERE "employees"."status" = 'active' /*action='overview',application='Backend',controller='analytics'*/[0m
+  ↳ app/services/analytics_service.rb:34:in 'AnalyticsService.overview'
+Completed 200 OK in 190ms (Views: 0.2ms | ActiveRecord: 25.9ms (6 queries, 0 cached) | GC: 0.3ms)
+
+
+Started GET "/api/v1/analytics/salary_bands" for 127.0.0.1 at 2026-10-11 01:10:28 +0530
+Processing by Api::V1::AnalyticsController#by_department as JSON
+  Parameters: {"analytic" => {}}
+Processing by Api::V1::AnalyticsController#by_country as JSON
+  [1m[36mEmployee Load (11.4ms)[0m  [1m[34mSELECT department, currency, COUNT(*) as emp_count, SUM(base_salary) as sum_base, SUM(bonus) as sum_bonus FROM "employees" WHERE "employees"."status" = 'active' GROUP BY "employees"."department", "employees"."currency" /*action='by_department',application='Backend',controller='analytics'*/[0m
+  Parameters: {"analytic" => {}}
+  ↳ app/services/analytics_service.rb:73:in 'AnalyticsService.by_department'
+  [1m[36mEmployee Load (9.0ms)[0m  [1m[34mSELECT country, currency, COUNT(*) as emp_count, SUM(base_salary) as sum_base, SUM(bonus) as sum_bonus, AVG(base_salary) as avg_local_base FROM "employees" WHERE "employees"."status" = 'active' GROUP BY "employees"."country", "employees"."currency" /*action='by_country',application='Backend',controller='analytics'*/[0m
+Completed 200 OK in 32ms (Views: 0.2ms | ActiveRecord: 11.4ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+  ↳ app/services/analytics_service.rb:104:in 'AnalyticsService.by_country'
+Completed 200 OK in 18ms (Views: 0.2ms | ActiveRecord: 9.0ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/api/v1/analytics/overview" for 127.0.0.1 at 2026-10-11 01:10:28 +0530
+Processing by Api::V1::AnalyticsController#salary_bands as JSON
+  Parameters: {"analytic" => {}}
+  [1m[36mEmployee Pluck (10.9ms)[0m  [1m[34mSELECT "employees"."base_salary", "employees"."currency" FROM "employees" WHERE "employees"."status" = 'active' /*action='salary_bands',application='Backend',controller='analytics'*/[0m
+  ↳ app/services/analytics_service.rb:140:in 'AnalyticsService.salary_bands'
+Completed 200 OK in 87ms (Views: 0.2ms | ActiveRecord: 10.9ms (1 query, 0 cached) | GC: 0.2ms)
+
+
+Started GET "/api/v1/analytics/by_department" for 127.0.0.1 at 2026-10-11 01:10:29 +0530
+Processing by Api::V1::AnalyticsController#overview as JSON
+  Parameters: {"analytic" => {}}
+  [1m[36mEmployee Count (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "employees" /*action='overview',application='Backend',controller='analytics'*/[0m
+  ↳ app/services/analytics_service.rb:6:in 'AnalyticsService.overview'
+  [1m[36mEmployee Count (0.7ms)[0m  [1m[34mSELECT COUNT(*) FROM "employees" WHERE "employees"."status" = 'active' /*action='overview',application='Backend',controller='analytics'*/[0m
+  ↳ app/services/analytics_service.rb:7:in 'AnalyticsService.overview'
+  [1m[36mEmployee Count (0.4ms)[0m  [1m[34mSELECT COUNT(*) FROM "employees" WHERE "employees"."status" = 'on_leave' /*action='overview',application='Backend',controller='analytics'*/[0m
+  ↳ app/services/analytics_service.rb:8:in 'AnalyticsService.overview'
+  [1m[36mEmployee Count (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "employees" WHERE "employees"."status" = 'terminated' /*action='overview',application='Backend',controller='analytics'*/[0m
+  ↳ app/services/analytics_service.rb:9:in 'AnalyticsService.overview'
+  [1m[36mEmployee Load (4.2ms)[0m  [1m[34mSELECT currency, SUM(base_salary) as total_base, SUM(bonus) as total_bonus, COUNT(*) as count FROM "employees" WHERE "employees"."status" = 'active' GROUP BY "employees"."currency" /*action='overview',application='Backend',controller='analytics'*/[0m
+  ↳ app/services/analytics_service.rb:19:in 'AnalyticsService.overview'
+  [1m[36mEmployee Pluck (11.2ms)[0m  [1m[34mSELECT "employees"."base_salary", "employees"."currency" FROM "employees" WHERE "employees"."status" = 'active' /*action='overview',application='Backend',controller='analytics'*/[0m
+  ↳ app/services/analytics_service.rb:34:in 'AnalyticsService.overview'
+Completed 200 OK in 90ms (Views: 0.2ms | ActiveRecord: 16.9ms (6 queries, 0 cached) | GC: 0.2ms)
+
+
+Processing by Api::V1::AnalyticsController#by_department as JSON
+  Parameters: {"analytic" => {}}
+  [1m[36mEmployee Load (10.7ms)[0m  [1m[34mSELECT department, currency, COUNT(*) as emp_count, SUM(base_salary) as sum_base, SUM(bonus) as sum_bonus FROM "employees" WHERE "employees"."status" = 'active' GROUP BY "employees"."department", "employees"."currency" /*action='by_department',application='Backend',controller='analytics'*/[0m
+  ↳ app/services/analytics_service.rb:73:in 'AnalyticsService.by_department'
+Completed 200 OK in 17ms (Views: 0.4ms | ActiveRecord: 10.7ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/api/v1/employees?page=1&per_page=25&sort_by=id&sort_order=asc" for 127.0.0.1 at 2026-10-11 01:10:49 +0530
+Processing by Api::V1::EmployeesController#index as JSON
+  Parameters: {"page" => "1", "per_page" => "25", "sort_by" => "id", "sort_order" => "asc", "employee" => {}}
+  [1m[36mEmployee Count (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "employees" /*action='index',application='Backend',controller='employees'*/[0m
+  ↳ app/controllers/api/v1/employees_controller.rb:37:in 'Api::V1::EmployeesController#index'
+  [1m[36mEmployee Load (0.4ms)[0m  [1m[34mSELECT "employees".* FROM "employees" ORDER BY "employees"."id" ASC LIMIT 25 OFFSET 0 /*action='index',application='Backend',controller='employees'*/[0m
+  ↳ app/controllers/api/v1/employees_controller.rb:45:in 'Enumerable#map'
+Completed 200 OK in 10ms (Views: 0.2ms | ActiveRecord: 0.5ms (2 queries, 0 cached) | GC: 0.0ms)
+
+
