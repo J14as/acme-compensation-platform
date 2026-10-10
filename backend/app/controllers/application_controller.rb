@@ -4,10 +4,17 @@ class ApplicationController < ActionController::API
   EMPLOYEE_TOKEN = "acme-emp-sec-token-2026"
 
   before_action :authenticate_request!
+  before_action :set_no_cache_headers
 
   attr_reader :current_user
 
   private
+
+  def set_no_cache_headers
+    response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+    response.headers["Pragma"] = "no-cache"
+    response.headers["Expires"] = "0"
+  end
 
   def authenticate_request!
     # Allow health check without auth

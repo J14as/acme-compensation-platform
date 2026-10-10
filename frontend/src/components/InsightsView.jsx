@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { HelpCircle, Trophy, Sparkles } from 'lucide-react';
+import { HelpCircle, Trophy, FileText } from 'lucide-react';
 import { Api } from '../services/api';
 
 const QUICK_PROMPTS = [
@@ -49,8 +49,8 @@ export default function InsightsView() {
       {/* Header */}
       <div style={{ marginBottom: '28px' }}>
         <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', padding: '4px 10px', borderRadius: '6px', background: 'var(--mint-bg)', color: 'var(--mint)', fontSize: '12px', fontWeight: '700', marginBottom: '8px' }}>
-          <Sparkles size={14} />
-          <span>ORGANIZATIONAL COMPENSATION INTELLIGENCE</span>
+          <FileText size={14} />
+          <span>COMPENSATION ANALYSIS & BENCHMARKS</span>
         </div>
         <h1 style={{ fontSize: '26px', fontWeight: '800', color: 'var(--obsidian)', margin: 0, letterSpacing: '-0.4px' }}>
           How Does ACME Pay People?

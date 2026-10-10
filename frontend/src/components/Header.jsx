@@ -1,5 +1,5 @@
 import React from 'react';
-import { Users, BarChart3, HelpCircle, UserPlus, Hexagon, ShieldCheck } from 'lucide-react';
+import { Users, BarChart3, HelpCircle, UserPlus, Building2, ShieldCheck } from 'lucide-react';
 
 export default function Header({ activeTab, setActiveTab, onOpenNewEmployeeModal }) {
   const tabs = [
@@ -40,7 +40,7 @@ export default function Header({ activeTab, setActiveTab, onOpenNewEmployeeModal
             color: '#10b981',
             boxShadow: '0 2px 8px rgba(9, 13, 22, 0.15)',
           }}>
-            <Hexagon size={22} strokeWidth={2.5} />
+            <Building2 size={22} strokeWidth={2.2} />
           </div>
 
           <div>

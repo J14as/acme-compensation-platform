@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Search, RotateCcw, ArrowUpDown, History, DollarSign, ChevronLeft, ChevronRight, AlertCircle, Sparkles } from 'lucide-react';
+import { Search, RotateCcw, ArrowUpDown, History, DollarSign, ChevronLeft, ChevronRight, AlertCircle, Edit2 } from 'lucide-react';
 import { Api } from '../services/api';
 
 const COUNTRY_NAMES = {
@@ -22,7 +22,12 @@ const CURRENCY_SYMBOLS = {
   AUD: 'AU$',
 };
 
-export default function EmployeeDirectory({ onOpenSalaryModal, onOpenHistoryModal }) {
+export default function EmployeeDirectory({
+  onOpenSalaryModal,
+  onOpenHistoryModal,
+  refreshTrigger,
+  lastUpdatedEmployee,
+}) {
   const [employees, setEmployees] = useState([]);
   const [pagination, setPagination] = useState({ current_page: 1, per_page: 25, total_pages: 1, total_count: 0 });
   const [filters, setFilters] = useState({ departments: [], countries: [], currencies: [], statuses: [] });
@@ -67,12 +72,43 @@ export default function EmployeeDirectory({ onOpenSalaryModal, onOpenHistoryModa
     }
   }, [page, perPage, search, department, country, currency, status, sortBy, sortOrder]);
 
+  // Initial and query-driven fetch with debounce
   useEffect(() => {
     const timer = setTimeout(() => {
       fetchEmployees();
     }, 200);
     return () => clearTimeout(timer);
   }, [fetchEmployees]);
+
+  // Instant optimistic update when an employee is adjusted
+  useEffect(() => {
+    if (!lastUpdatedEmployee) return;
+    setEmployees((prev) =>
+      prev.map((emp) =>
+        emp.id === lastUpdatedEmployee.id
+          ? {
+              ...emp,
+              ...lastUpdatedEmployee,
+              full_name: lastUpdatedEmployee.full_name || `${lastUpdatedEmployee.first_name} ${lastUpdatedEmployee.last_name}`,
+              base_salary: lastUpdatedEmployee.base_salary,
+              bonus: lastUpdatedEmployee.bonus,
+              total_compensation_usd: lastUpdatedEmployee.total_compensation_usd,
+              effective_date: lastUpdatedEmployee.effective_date,
+              job_title: lastUpdatedEmployee.job_title,
+              department: lastUpdatedEmployee.department,
+              status: lastUpdatedEmployee.status,
+            }
+          : emp
+      )
+    );
+  }, [lastUpdatedEmployee]);
+
+  // Server re-fetch when trigger changes (e.g. employee created or salary adjusted)
+  useEffect(() => {
+    if (refreshTrigger && refreshTrigger > 0) {
+      fetchEmployees();
+    }
+  }, [refreshTrigger, fetchEmployees]);
 
   const handleResetFilters = () => {
     setSearch('');
@@ -398,18 +434,28 @@ export default function EmployeeDirectory({ onOpenSalaryModal, onOpenHistoryModa
 
                   {/* Actions */}
                   <td style={{ textAlign: 'right' }}>
-                    <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
+                    <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
                       <button
-                        onClick={() => onOpenSalaryModal(emp)}
+                        onClick={() => onOpenSalaryModal(emp, 'salary')}
                         className="theme-btn-secondary theme-btn-sm"
-                        style={{ padding: '6px 12px' }}
+                        style={{ padding: '6px 10px', fontSize: '13px' }}
+                        title="Adjust compensation (base salary & bonus)"
                       >
                         Adjust
                       </button>
                       <button
+                        onClick={() => onOpenSalaryModal(emp, 'details')}
+                        className="theme-btn-secondary theme-btn-sm"
+                        style={{ padding: '6px 10px', fontSize: '13px', color: 'var(--text-main)' }}
+                        title="Edit profile & employment details"
+                      >
+                        Edit
+                      </button>
+                      <button
                         onClick={() => onOpenHistoryModal(emp.id)}
                         className="theme-btn-secondary theme-btn-sm"
-                        style={{ padding: '6px 12px', color: 'var(--text-muted)' }}
+                        style={{ padding: '6px 10px', fontSize: '13px', color: 'var(--text-muted)' }}
+                        title="View immutable salary audit ledger"
                       >
                         History
                       </button>

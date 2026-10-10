@@ -1,29 +1,29 @@
-import React, { useState, useEffect } from 'react';
-import { X, ArrowRight, ShieldCheck, Calendar, UserCheck } from 'lucide-react';
+import React, { useState, useEffect, useCallback } from 'react';
+import { X, ArrowRight, ShieldCheck, Calendar, UserCheck, DollarSign, RotateCcw } from 'lucide-react';
 import { Api } from '../services/api';
 
-export default function HistoryModal({ employeeId, onClose }) {
+export default function HistoryModal({ employeeId, onClose, refreshTrigger, onOpenSalaryModal }) {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  useEffect(() => {
+  const fetchHistory = useCallback(async () => {
     if (!employeeId) return;
-
-    const fetchHistory = async () => {
-      setLoading(true);
-      try {
-        const res = await Api.getEmployee(employeeId);
-        setData(res);
-      } catch (err) {
-        setError(err.message || 'Failed to load salary history.');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchHistory();
+    setLoading(true);
+    setError(null);
+    try {
+      const res = await Api.getEmployee(employeeId);
+      setData(res);
+    } catch (err) {
+      setError(err.message || 'Failed to load salary history.');
+    } finally {
+      setLoading(false);
+    }
   }, [employeeId]);
+
+  useEffect(() => {
+    fetchHistory();
+  }, [fetchHistory, refreshTrigger]);
 
   if (!employeeId) return null;
 
@@ -75,26 +75,38 @@ export default function HistoryModal({ employeeId, onClose }) {
                 {emp.employee_code} • {emp.job_title} ({emp.department})
               </div>
             </div>
-            <div style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '6px',
-              background: 'var(--mint-bg)',
-              border: '1px solid var(--mint-border)',
-              padding: '4px 10px',
-              borderRadius: '9999px',
-              fontSize: '12px',
-              fontWeight: '700',
-              color: 'var(--mint)',
-            }}>
-              <ShieldCheck size={14} />
-              <span>Immutable</span>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+              {onOpenSalaryModal && (
+                <button
+                  onClick={() => onOpenSalaryModal(emp, 'salary')}
+                  className="theme-btn-secondary theme-btn-sm"
+                  style={{ fontSize: '12px', padding: '5px 12px', background: '#ffffff' }}
+                >
+                  <DollarSign size={13} color="var(--mint)" />
+                  <span>Adjust Salary</span>
+                </button>
+              )}
+              <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '6px',
+                background: 'var(--mint-bg)',
+                border: '1px solid var(--mint-border)',
+                padding: '4px 10px',
+                borderRadius: '9999px',
+                fontSize: '12px',
+                fontWeight: '700',
+                color: 'var(--mint)',
+              }}>
+                <ShieldCheck size={14} />
+                <span>Immutable</span>
+              </div>
             </div>
           </div>
         )}
 
         {/* Content Body */}
-        <div style={{ padding: '24px' }}>
+        <div style={{ padding: '24px', maxHeight: '55vh', overflowY: 'auto' }}>
           {loading ? (
             <div style={{ textAlign: 'center', padding: '40px 0', color: 'var(--text-muted)', fontSize: '14px' }}>
               Retrieving verified audit records...
@@ -196,10 +208,19 @@ export default function HistoryModal({ employeeId, onClose }) {
         {/* Footer */}
         <div style={{
           display: 'flex',
-          justifyContent: 'flex-end',
+          justifyContent: 'space-between',
+          alignItems: 'center',
           padding: '16px 24px',
           borderTop: '1px solid var(--border-card)',
         }}>
+          <button
+            onClick={fetchHistory}
+            className="theme-btn-secondary theme-btn-sm"
+            style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}
+          >
+            <RotateCcw size={13} />
+            <span>Refresh Ledger</span>
+          </button>
           <button onClick={onClose} className="theme-btn-secondary theme-btn-sm">
             Close
           </button>

@@ -121,8 +121,8 @@ module Api
 
           render json: {
             message: "Salary updated successfully and recorded in audit log.",
-            employee: serialize_employee_detail(@employee),
-            salary_history: @employee.salary_histories.map { |h| serialize_salary_history(h) }
+            employee: serialize_employee_detail(@employee.reload),
+            salary_history: @employee.salary_histories.reload.map { |h| serialize_salary_history(h) }
           }
         rescue ActiveRecord::RecordInvalid => e
           render json: { errors: e.record.errors.full_messages }, status: :unprocessable_entity

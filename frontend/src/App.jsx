@@ -11,9 +11,12 @@ import { Check } from 'lucide-react';
 export default function App() {
   const [activeTab, setActiveTab] = useState('directory');
   const [salaryEmployee, setSalaryEmployee] = useState(null);
+  const [salaryModalMode, setSalaryModalMode] = useState('salary');
   const [historyEmployeeId, setHistoryEmployeeId] = useState(null);
   const [isNewEmployeeOpen, setIsNewEmployeeOpen] = useState(false);
   const [toastMessage, setToastMessage] = useState(null);
+  const [refreshTrigger, setRefreshTrigger] = useState(0);
+  const [lastUpdatedEmployee, setLastUpdatedEmployee] = useState(null);
 
   const showToast = (msg) => {
     setToastMessage(msg);
@@ -23,10 +26,13 @@ export default function App() {
   };
 
   const handleSalaryUpdated = (updatedEmployee) => {
-    showToast(`Salary for ${updatedEmployee.full_name} updated and recorded in audit log.`);
+    setLastUpdatedEmployee(updatedEmployee);
+    setRefreshTrigger((prev) => prev + 1);
+    showToast(`Salary & records for ${updatedEmployee.full_name} updated and recorded in audit log.`);
   };
 
   const handleEmployeeCreated = (newEmployee) => {
+    setRefreshTrigger((prev) => prev + 1);
     showToast(`Employee ${newEmployee.full_name} (${newEmployee.employee_code}) added.`);
   };
 
@@ -72,8 +78,13 @@ export default function App() {
       }}>
         {activeTab === 'directory' && (
           <EmployeeDirectory
-            onOpenSalaryModal={(emp) => setSalaryEmployee(emp)}
+            onOpenSalaryModal={(emp, mode = 'salary') => {
+              setSalaryEmployee(emp);
+              setSalaryModalMode(mode);
+            }}
             onOpenHistoryModal={(id) => setHistoryEmployeeId(id)}
+            refreshTrigger={refreshTrigger}
+            lastUpdatedEmployee={lastUpdatedEmployee}
           />
         )}
 
@@ -90,6 +101,7 @@ export default function App() {
       {salaryEmployee && (
         <SalaryModal
           employee={salaryEmployee}
+          initialMode={salaryModalMode}
           onClose={() => setSalaryEmployee(null)}
           onUpdated={handleSalaryUpdated}
         />
@@ -99,6 +111,11 @@ export default function App() {
         <HistoryModal
           employeeId={historyEmployeeId}
           onClose={() => setHistoryEmployeeId(null)}
+          refreshTrigger={refreshTrigger}
+          onOpenSalaryModal={(emp, mode = 'salary') => {
+            setSalaryEmployee(emp);
+            setSalaryModalMode(mode);
+          }}
         />
       )}
 

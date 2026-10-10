@@ -20,9 +20,11 @@ async function request(path, options = {}) {
   const token = getAuthToken();
 
   const response = await fetch(url, {
+    cache: 'no-store',
     headers: {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
+      'Cache-Control': 'no-cache, no-store',
       ...(token ? { 'Authorization': `Bearer ${token}` } : {}),
       ...options.headers,
     },
@@ -72,10 +74,11 @@ export const Api = {
         query.append(key, val);
       }
     });
+    query.append('_t', Date.now());
     return request(`/api/v1/employees?${query.toString()}`);
   },
 
-  getEmployee: (id) => request(`/api/v1/employees/${id}`),
+  getEmployee: (id) => request(`/api/v1/employees/${id}?_t=${Date.now()}`),
 
   createEmployee: (employeeData) =>
     request('/api/v1/employees', {
