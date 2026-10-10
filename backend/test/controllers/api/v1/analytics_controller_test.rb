@@ -12,6 +12,8 @@ class Api::V1::AnalyticsControllerTest < ActionDispatch::IntegrationTest
     end
     ExchangeRate.clear_cache!
 
+    @headers = { "Authorization" => "Bearer #{ApplicationController::HR_TOKEN}" }
+
     Employee.create!(
       employee_code: "ANALYTICS-01",
       first_name: "Bruce",
@@ -44,7 +46,7 @@ class Api::V1::AnalyticsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "GET /api/v1/analytics/overview returns aggregate KPIs" do
-    get api_v1_analytics_overview_url, as: :json
+    get api_v1_analytics_overview_url, headers: @headers, as: :json
     assert_response :success
 
     json = JSON.parse(response.body)
@@ -55,7 +57,7 @@ class Api::V1::AnalyticsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "GET /api/v1/analytics/by_department returns department breakdowns" do
-    get api_v1_analytics_by_department_url, as: :json
+    get api_v1_analytics_by_department_url, headers: @headers, as: :json
     assert_response :success
 
     json = JSON.parse(response.body)
@@ -66,7 +68,7 @@ class Api::V1::AnalyticsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "GET /api/v1/analytics/by_country returns converted regional summaries" do
-    get api_v1_analytics_by_country_url, as: :json
+    get api_v1_analytics_by_country_url, headers: @headers, as: :json
     assert_response :success
 
     json = JSON.parse(response.body)
@@ -77,7 +79,7 @@ class Api::V1::AnalyticsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "GET /api/v1/analytics/salary_bands returns distribution tiers" do
-    get api_v1_analytics_salary_bands_url, as: :json
+    get api_v1_analytics_salary_bands_url, headers: @headers, as: :json
     assert_response :success
 
     json = JSON.parse(response.body)
@@ -87,7 +89,7 @@ class Api::V1::AnalyticsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "GET /api/v1/analytics/insights returns executive questions and top earners" do
-    get api_v1_analytics_insights_url, as: :json
+    get api_v1_analytics_insights_url, headers: @headers, as: :json
     assert_response :success
 
     json = JSON.parse(response.body)

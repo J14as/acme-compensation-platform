@@ -1,24 +1,26 @@
 module Api
   module V1
     class EmployeesController < ApplicationController
-      before_action :set_employee, only: [:show, :update_salary]
+      before_action :authorize_hr_manager!, only: [:create, :update, :update_salary]
+      before_action :set_employee, only: [:show, :update, :update_salary]
 
       # GET /api/v1/employees
       def index
+        # Safe pagination bounds
         page = [params[:page].to_i, 1].max
         per_page = [[params[:per_page].to_i, 10].max, 100].min
         per_page = 25 if params[:per_page].blank?
 
         scope = Employee.all
 
-        # Filtering
+        # Multi-dimensional Filtering
         scope = scope.search_query(params[:search])
         scope = scope.by_department(params[:department])
         scope = scope.by_country(params[:country])
         scope = scope.by_currency(params[:currency])
         scope = scope.by_status(params[:status])
 
-        # Sorting
+        # Safe Sorting
         sort_by = params[:sort_by].presence || "id"
         sort_order = params[:sort_order].to_s.downcase == "desc" ? :desc : :asc
 
@@ -29,7 +31,9 @@ module Api
           "department" => "department",
           "country" => "country",
           "base_salary" => "base_salary",
+          "salary" => "base_salary",
           "effective_date" => "effective_date",
+          "joining_date" => "effective_date",
           "status" => "status"
         }
 
@@ -68,7 +72,7 @@ module Api
 
       # POST /api/v1/employees
       def create
-        employee = Employee.new(employee_params)
+        employee = Employee.new(employee_create_params)
 
         if employee.save
           render json: {
@@ -80,6 +84,18 @@ module Api
         end
       end
 
+      # PATCH /api/v1/employees/:id (Demographic / Info Update)
+      def update
+        if @employee.update(employee_update_params)
+          render json: {
+            message: "Employee updated successfully.",
+            employee: serialize_employee_detail(@employee)
+          }
+        else
+          render json: { errors: @employee.errors.full_messages }, status: :unprocessable_entity
+        end
+      end
+
       # PATCH /api/v1/employees/:id/salary
       def update_salary
         new_base = params[:new_base_salary]
@@ -87,7 +103,7 @@ module Api
         reason = params[:change_reason]
         effective_date = params[:effective_date].presence || Date.current
         notes = params[:notes]
-        changed_by = params[:changed_by].presence || "HR Manager"
+        changed_by = current_user ? current_user[:name] : "HR Manager"
 
         if new_base.blank? || reason.blank?
           return render json: { errors: ["New base salary and change reason are required."] }, status: :bad_request
@@ -123,11 +139,20 @@ module Api
         render json: { error: "Employee not found." }, status: :not_found
       end
 
-      def employee_params
+      # Create params includes initial salary
+      def employee_create_params
         params.require(:employee).permit(
           :employee_code, :first_name, :last_name, :email,
           :department, :job_title, :country, :currency,
           :base_salary, :bonus, :effective_date, :status
+        )
+      end
+
+      # Update params protects base_salary from mass-assignment (must use update_salary for audit)
+      def employee_update_params
+        params.require(:employee).permit(
+          :first_name, :last_name, :email,
+          :department, :job_title, :country, :status
         )
       end
 

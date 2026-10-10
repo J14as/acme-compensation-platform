@@ -8,6 +8,8 @@ class Api::V1::EmployeesControllerTest < ActionDispatch::IntegrationTest
     end
     ExchangeRate.clear_cache!
 
+    @headers = { "Authorization" => "Bearer #{ApplicationController::HR_TOKEN}" }
+
     @employee = Employee.create!(
       employee_code: "CTRL-TEST-01",
       first_name: "Morgan",
@@ -25,7 +27,7 @@ class Api::V1::EmployeesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "GET /api/v1/employees returns paginated list with filter options" do
-    get api_v1_employees_url, as: :json
+    get api_v1_employees_url, headers: @headers, as: :json
     assert_response :success
 
     json = JSON.parse(response.body)
@@ -36,7 +38,7 @@ class Api::V1::EmployeesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "GET /api/v1/employees filters by search query" do
-    get api_v1_employees_url(search: "Morgan"), as: :json
+    get api_v1_employees_url(search: "Morgan"), headers: @headers, as: :json
     assert_response :success
 
     json = JSON.parse(response.body)
@@ -45,7 +47,7 @@ class Api::V1::EmployeesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "GET /api/v1/employees/:id returns employee and full salary history" do
-    get api_v1_employee_url(@employee), as: :json
+    get api_v1_employee_url(@employee), headers: @headers, as: :json
     assert_response :success
 
     json = JSON.parse(response.body)
@@ -74,7 +76,7 @@ class Api::V1::EmployeesControllerTest < ActionDispatch::IntegrationTest
     }
 
     assert_difference("Employee.count", 1) do
-      post api_v1_employees_url, params: payload, as: :json
+      post api_v1_employees_url, params: payload, headers: @headers, as: :json
     end
 
     assert_response :created
@@ -89,7 +91,7 @@ class Api::V1::EmployeesControllerTest < ActionDispatch::IntegrationTest
       new_bonus: 20_000,
       change_reason: "Annual Review",
       notes: "Exceptional marketing campaign metrics."
-    }, as: :json
+    }, headers: @headers, as: :json
 
     assert_response :success
     json = JSON.parse(response.body)
@@ -102,7 +104,7 @@ class Api::V1::EmployeesControllerTest < ActionDispatch::IntegrationTest
     patch salary_api_v1_employee_url(@employee), params: {
       new_base_salary: nil,
       change_reason: ""
-    }, as: :json
+    }, headers: @headers, as: :json
 
     assert_response :bad_request
   end

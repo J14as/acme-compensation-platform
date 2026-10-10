@@ -7,7 +7,12 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v1 do
-      resources :employees, only: [:index, :show, :create] do
+      # Authentication
+      post "auth/login", to: "auth#login"
+      get "auth/me", to: "auth#me"
+      delete "auth/logout", to: "auth#logout"
+
+      resources :employees, only: [:index, :show, :create, :update] do
         member do
           patch :salary, to: "employees#update_salary"
         end

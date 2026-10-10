@@ -1,13 +1,29 @@
 // Centralized API client for ACME Salary Management Platform
 
 const BASE_URL = import.meta.env.VITE_API_BASE_URL || '';
+const DEFAULT_HR_TOKEN = 'acme-hr-sec-token-2026';
+
+export function getAuthToken() {
+  return localStorage.getItem('acme_auth_token') || DEFAULT_HR_TOKEN;
+}
+
+export function setAuthToken(token) {
+  if (token) {
+    localStorage.setItem('acme_auth_token', token);
+  } else {
+    localStorage.removeItem('acme_auth_token');
+  }
+}
 
 async function request(path, options = {}) {
   const url = `${BASE_URL}${path}`;
+  const token = getAuthToken();
+
   const response = await fetch(url, {
     headers: {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
+      ...(token ? { 'Authorization': `Bearer ${token}` } : {}),
       ...options.headers,
     },
     ...options,
@@ -26,6 +42,28 @@ async function request(path, options = {}) {
 }
 
 export const Api = {
+  // Authentication
+  login: async (email, password) => {
+    const data = await request('/api/v1/auth/login', {
+      method: 'POST',
+      body: JSON.stringify({ email, password }),
+    });
+    if (data?.token) {
+      setAuthToken(data.token);
+    }
+    return data;
+  },
+
+  logout: async () => {
+    try {
+      await request('/api/v1/auth/logout', { method: 'DELETE' });
+    } finally {
+      setAuthToken(null);
+    }
+  },
+
+  getMe: () => request('/api/v1/auth/me'),
+
   // Employees
   getEmployees: (params = {}) => {
     const query = new URLSearchParams();
@@ -42,6 +80,12 @@ export const Api = {
   createEmployee: (employeeData) =>
     request('/api/v1/employees', {
       method: 'POST',
+      body: JSON.stringify({ employee: employeeData }),
+    }),
+
+  updateEmployee: (id, employeeData) =>
+    request(`/api/v1/employees/${id}`, {
+      method: 'PATCH',
       body: JSON.stringify({ employee: employeeData }),
     }),
 
