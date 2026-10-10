@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { DollarSign, Users, Award, TrendingUp, RefreshCw } from 'lucide-react';
+import { DollarSign, Users, Award, TrendingUp, RefreshCw, Globe, Building2, Layers } from 'lucide-react';
 import { Api } from '../services/api';
 
-const COUNTRY_FLAGS = {
+const COUNTRY_NAMES = {
   US: 'United States',
   GB: 'United Kingdom',
   IN: 'India',
@@ -62,26 +62,26 @@ export default function AnalyticsView() {
   const maxBandCount = Math.max(...salaryBands.map((b) => b.count || 0), 1);
 
   return (
-    <div style={{ padding: '24px 0', width: '100%' }}>
+    <div style={{ padding: '28px 0', width: '100%' }}>
       {/* Header */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '28px' }}>
         <div>
-          <h1 style={{ fontSize: '24px', fontWeight: '800', color: 'var(--text-main)', margin: 0, letterSpacing: '-0.3px' }}>
-            Compensation Analytics
+          <h1 style={{ fontSize: '26px', fontWeight: '800', color: 'var(--obsidian)', margin: 0, letterSpacing: '-0.4px' }}>
+            Salary & Compensation Analytics
           </h1>
           <p style={{ fontSize: '14px', color: 'var(--text-muted)', marginTop: '4px' }}>
-            Multi-currency financial aggregates normalized to Corporate USD Standard Rates
+            Multi-currency financial aggregates benchmarked to Corporate Planning Rates (USD Base)
           </p>
         </div>
 
         <button
           onClick={handleRefresh}
-          className="btn btn-secondary"
+          className="theme-btn-secondary"
           disabled={refreshing}
-          style={{ height: '40px', fontSize: '14px' }}
+          style={{ height: '42px', fontSize: '14px' }}
         >
           <RefreshCw size={15} />
-          {refreshing ? 'Updating...' : 'Refresh KPIs'}
+          <span>{refreshing ? 'Recalculating...' : 'Refresh KPIs'}</span>
         </button>
       </div>
 
@@ -93,11 +93,25 @@ export default function AnalyticsView() {
         marginBottom: '28px',
       }}>
         {/* Total Compensation Card */}
-        <div className="card">
-          <div style={{ fontSize: '13px', fontWeight: '600', color: 'var(--text-muted)', marginBottom: '10px' }}>
-            Total Annual Payroll (USD)
+        <div className="theme-card">
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
+            <span style={{ fontSize: '13px', fontWeight: '600', color: 'var(--text-muted)' }}>
+              Total Annual Payroll (USD)
+            </span>
+            <div style={{
+              width: '32px',
+              height: '32px',
+              borderRadius: '8px',
+              background: 'var(--mint-bg)',
+              color: 'var(--mint)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}>
+              <DollarSign size={18} />
+            </div>
           </div>
-          <div style={{ fontSize: '32px', fontWeight: '800', color: 'var(--text-main)' }} className="tabular-nums">
+          <div style={{ fontSize: '32px', fontWeight: '800', color: 'var(--obsidian)' }} className="tabular-nums">
             ${overview?.total_compensation_usd?.toLocaleString(undefined, { maximumFractionDigits: 0 })}
           </div>
           <div style={{ fontSize: '13px', color: 'var(--text-muted)', marginTop: '6px' }}>
@@ -106,11 +120,25 @@ export default function AnalyticsView() {
         </div>
 
         {/* Active Headcount Card */}
-        <div className="card">
-          <div style={{ fontSize: '13px', fontWeight: '600', color: 'var(--text-muted)', marginBottom: '10px' }}>
-            Active Headcount
+        <div className="theme-card">
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
+            <span style={{ fontSize: '13px', fontWeight: '600', color: 'var(--text-muted)' }}>
+              Active Headcount
+            </span>
+            <div style={{
+              width: '32px',
+              height: '32px',
+              borderRadius: '8px',
+              background: 'var(--indigo-bg)',
+              color: 'var(--indigo-text)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}>
+              <Users size={18} />
+            </div>
           </div>
-          <div style={{ fontSize: '32px', fontWeight: '800', color: 'var(--text-main)' }} className="tabular-nums">
+          <div style={{ fontSize: '32px', fontWeight: '800', color: 'var(--obsidian)' }} className="tabular-nums">
             {overview?.active_employees?.toLocaleString()}
           </div>
           <div style={{ fontSize: '13px', color: 'var(--text-muted)', marginTop: '6px' }}>
@@ -119,11 +147,25 @@ export default function AnalyticsView() {
         </div>
 
         {/* Average Base Salary */}
-        <div className="card">
-          <div style={{ fontSize: '13px', fontWeight: '600', color: 'var(--text-muted)', marginBottom: '10px' }}>
-            Average Base Salary (USD)
+        <div className="theme-card">
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
+            <span style={{ fontSize: '13px', fontWeight: '600', color: 'var(--text-muted)' }}>
+              Average Base Salary (USD)
+            </span>
+            <div style={{
+              width: '32px',
+              height: '32px',
+              borderRadius: '8px',
+              background: 'var(--mint-bg)',
+              color: 'var(--mint)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}>
+              <TrendingUp size={18} />
+            </div>
           </div>
-          <div style={{ fontSize: '32px', fontWeight: '800', color: 'var(--text-main)' }} className="tabular-nums">
+          <div style={{ fontSize: '32px', fontWeight: '800', color: 'var(--obsidian)' }} className="tabular-nums">
             ${overview?.average_salary_usd?.toLocaleString(undefined, { maximumFractionDigits: 0 })}
           </div>
           <div style={{ fontSize: '13px', color: 'var(--text-muted)', marginTop: '6px' }}>
@@ -132,15 +174,29 @@ export default function AnalyticsView() {
         </div>
 
         {/* Median Benchmark Salary */}
-        <div className="card">
-          <div style={{ fontSize: '13px', fontWeight: '600', color: 'var(--text-muted)', marginBottom: '10px' }}>
-            Median Base Benchmark (USD)
+        <div className="theme-card">
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
+            <span style={{ fontSize: '13px', fontWeight: '600', color: 'var(--text-muted)' }}>
+              Median Base Benchmark (USD)
+            </span>
+            <div style={{
+              width: '32px',
+              height: '32px',
+              borderRadius: '8px',
+              background: 'var(--amber-bg)',
+              color: 'var(--amber-text)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}>
+              <Award size={18} />
+            </div>
           </div>
-          <div style={{ fontSize: '32px', fontWeight: '800', color: 'var(--text-main)' }} className="tabular-nums">
+          <div style={{ fontSize: '32px', fontWeight: '800', color: 'var(--obsidian)' }} className="tabular-nums">
             ${overview?.median_salary_usd?.toLocaleString(undefined, { maximumFractionDigits: 0 })}
           </div>
           <div style={{ fontSize: '13px', color: 'var(--text-muted)', marginTop: '6px' }}>
-            Calculated across all 10,000 employees globally
+            Exact statistical median across 10,000 employee records
           </div>
         </div>
       </div>
@@ -153,10 +209,13 @@ export default function AnalyticsView() {
         marginBottom: '28px',
       }}>
         {/* Department Spend */}
-        <div className="card">
-          <h2 style={{ fontSize: '17px', fontWeight: '700', color: 'var(--text-main)', marginBottom: '20px' }}>
-            Payroll Expenditure by Department
-          </h2>
+        <div className="theme-card">
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '20px' }}>
+            <Building2 size={18} color="var(--mint)" />
+            <h2 style={{ fontSize: '17px', fontWeight: '800', color: 'var(--obsidian)', margin: 0 }}>
+              Payroll Expenditure by Department
+            </h2>
+          </div>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
             {departments.map((dept) => {
@@ -164,10 +223,10 @@ export default function AnalyticsView() {
               return (
                 <div key={dept.department}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '14px', marginBottom: '6px' }}>
-                    <span style={{ fontWeight: '600', color: 'var(--text-main)' }}>{dept.department}</span>
+                    <span style={{ fontWeight: '600', color: 'var(--obsidian)' }}>{dept.department}</span>
                     <div style={{ display: 'flex', gap: '14px', fontSize: '13px' }} className="tabular-nums">
                       <span style={{ color: 'var(--text-muted)' }}>{dept.headcount} employees</span>
-                      <span style={{ fontWeight: '700', color: 'var(--text-main)' }}>
+                      <span style={{ fontWeight: '700', color: 'var(--obsidian)' }}>
                         ${dept.total_compensation_usd.toLocaleString(undefined, { maximumFractionDigits: 0 })}
                       </span>
                     </div>
@@ -182,7 +241,7 @@ export default function AnalyticsView() {
                     <div style={{
                       width: `${pct}%`,
                       height: '100%',
-                      background: 'var(--primary)',
+                      background: 'linear-gradient(90deg, #10b981 0%, #059669 100%)',
                       borderRadius: '4px',
                     }} />
                   </div>
@@ -193,10 +252,13 @@ export default function AnalyticsView() {
         </div>
 
         {/* Salary Bands */}
-        <div className="card">
-          <h2 style={{ fontSize: '17px', fontWeight: '700', color: 'var(--text-main)', marginBottom: '20px' }}>
-            Salary Bands Distribution (USD Converted)
-          </h2>
+        <div className="theme-card">
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '20px' }}>
+            <Layers size={18} color="var(--mint)" />
+            <h2 style={{ fontSize: '17px', fontWeight: '800', color: 'var(--obsidian)', margin: 0 }}>
+              Salary Bands Distribution (USD Converted)
+            </h2>
+          </div>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
             {salaryBands.map((band) => {
@@ -208,10 +270,10 @@ export default function AnalyticsView() {
               return (
                 <div key={band.band}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '14px', marginBottom: '6px' }}>
-                    <span style={{ fontWeight: '600', color: 'var(--text-main)' }}>{band.band}</span>
+                    <span style={{ fontWeight: '600', color: 'var(--obsidian)' }}>{band.band}</span>
                     <div style={{ display: 'flex', gap: '12px', fontSize: '13px' }} className="tabular-nums">
                       <span style={{ color: 'var(--text-muted)' }}>{band.count.toLocaleString()} emps</span>
-                      <span style={{ fontWeight: '700', color: 'var(--text-main)' }}>{share}%</span>
+                      <span style={{ fontWeight: '700', color: 'var(--mint)' }}>{share}%</span>
                     </div>
                   </div>
                   <div style={{
@@ -224,7 +286,7 @@ export default function AnalyticsView() {
                     <div style={{
                       width: `${pct}%`,
                       height: '100%',
-                      background: '#4b5563',
+                      background: 'var(--obsidian)',
                       borderRadius: '4px',
                     }} />
                   </div>
@@ -236,20 +298,23 @@ export default function AnalyticsView() {
       </div>
 
       {/* Regional Country Breakdown */}
-      <div className="card">
-        <h2 style={{ fontSize: '17px', fontWeight: '700', color: 'var(--text-main)', marginBottom: '20px' }}>
-          Geographic Compensation & Currency Parity
-        </h2>
+      <div className="theme-card">
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '20px' }}>
+          <Globe size={18} color="var(--mint)" />
+          <h2 style={{ fontSize: '17px', fontWeight: '800', color: 'var(--obsidian)', margin: 0 }}>
+            Geographic Payroll Allocation & Currency Parity
+          </h2>
+        </div>
 
         <div className="data-table-container">
           <table className="data-table">
             <thead>
               <tr>
                 <th>Region</th>
-                <th>Currency</th>
+                <th>Contract Currency</th>
                 <th style={{ textAlign: 'right' }}>Active Headcount</th>
                 <th style={{ textAlign: 'right' }}>Local Nominal Spend</th>
-                <th style={{ textAlign: 'right' }}>Exchange Rate (FX)</th>
+                <th style={{ textAlign: 'right' }}>Corporate FX Rate</th>
                 <th style={{ textAlign: 'right' }}>Total (USD Converted)</th>
                 <th style={{ textAlign: 'right' }}>Average (USD)</th>
               </tr>
@@ -257,11 +322,11 @@ export default function AnalyticsView() {
             <tbody>
               {countries.map((c) => (
                 <tr key={c.country}>
-                  <td style={{ fontWeight: '600', fontSize: '15px' }}>
-                    {COUNTRY_FLAGS[c.country] || c.country}
+                  <td style={{ fontWeight: '700', fontSize: '15px', color: 'var(--obsidian)' }}>
+                    {COUNTRY_NAMES[c.country] || c.country}
                   </td>
                   <td>
-                    <span className="badge badge-currency">{c.currency}</span>
+                    <span className="badge-currency-tag">{c.currency}</span>
                   </td>
                   <td style={{ textAlign: 'right', fontSize: '14px' }} className="tabular-nums">
                     {c.headcount.toLocaleString()}
@@ -272,10 +337,10 @@ export default function AnalyticsView() {
                   <td style={{ textAlign: 'right', color: 'var(--text-dim)', fontSize: '13px' }} className="tabular-nums">
                     1 {c.currency} = ${c.fx_rate_to_usd}
                   </td>
-                  <td style={{ textAlign: 'right', fontWeight: '700', color: 'var(--emerald-text)', fontSize: '15px' }} className="tabular-nums">
+                  <td style={{ textAlign: 'right', fontWeight: '700', color: 'var(--mint)', fontSize: '15px' }} className="tabular-nums">
                     ${Number(c.total_compensation_usd).toLocaleString(undefined, { maximumFractionDigits: 0 })}
                   </td>
-                  <td style={{ textAlign: 'right', fontSize: '14px', fontWeight: '500' }} className="tabular-nums">
+                  <td style={{ textAlign: 'right', fontSize: '14px', fontWeight: '600' }} className="tabular-nums">
                     ${Number(c.average_salary_usd).toLocaleString(undefined, { maximumFractionDigits: 0 })}
                   </td>
                 </tr>

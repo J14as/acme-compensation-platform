@@ -23,7 +23,7 @@ export default function App() {
   };
 
   const handleSalaryUpdated = (updatedEmployee) => {
-    showToast(`Salary for ${updatedEmployee.full_name} updated successfully.`);
+    showToast(`Salary for ${updatedEmployee.full_name} updated and recorded in audit log.`);
   };
 
   const handleEmployeeCreated = (newEmployee) => {
@@ -36,10 +36,10 @@ export default function App() {
       {toastMessage && (
         <div style={{
           position: 'fixed',
-          top: '80px',
+          top: '86px',
           right: '32px',
           zIndex: 9999,
-          background: 'var(--primary)',
+          background: 'var(--obsidian)',
           color: '#ffffff',
           padding: '12px 20px',
           borderRadius: 'var(--radius-md)',
@@ -49,20 +49,21 @@ export default function App() {
           gap: '10px',
           fontSize: '14px',
           fontWeight: '600',
+          border: '1px solid rgba(255, 255, 255, 0.1)',
         }}>
-          <Check size={18} />
+          <Check size={18} color="var(--mint-light)" />
           <span>{toastMessage}</span>
         </div>
       )}
 
-      {/* Main App Header */}
+      {/* Cohesive Nordic Obsidian & Emerald Mint Header */}
       <Header
         activeTab={activeTab}
         setActiveTab={setActiveTab}
         onOpenNewEmployeeModal={() => setIsNewEmployeeOpen(true)}
       />
 
-      {/* Content Area - Full Screen Width with comfortable edge padding */}
+      {/* Main Content Area - Full screen width with comfortable padding */}
       <main style={{
         width: '100%',
         padding: '0 32px 60px',
@@ -108,9 +109,9 @@ export default function App() {
         />
       )}
 
-      {/* Enterprise Full-Width Footer */}
+      {/* Cohesive Footer */}
       <footer style={{
-        borderTop: '1px solid var(--border-light)',
+        borderTop: '1px solid var(--border-card)',
         padding: '24px 32px',
         fontSize: '13px',
         color: 'var(--text-muted)',
@@ -122,8 +123,15 @@ export default function App() {
           <div>
             <strong>ACME Corporation</strong> • Global Workforce Salary Management Platform
           </div>
-          <div>
-            10,000 Employees • SQLite Relational Engine (WAL Mode) • Rails 8 API • React
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+            <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+              <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: 'var(--mint)' }} />
+              Active Database: 10,000 Employees
+            </span>
+            <span>•</span>
+            <span>SQLite Relational Engine (WAL)</span>
+            <span>•</span>
+            <span>Ruby on Rails 8 API</span>
           </div>
         </div>
       </footer>

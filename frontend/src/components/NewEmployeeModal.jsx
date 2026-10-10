@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X, AlertCircle } from 'lucide-react';
+import { X, AlertCircle, UserPlus } from 'lucide-react';
 import { Api } from '../services/api';
 
 const DEPARTMENTS = [
@@ -87,46 +87,46 @@ export default function NewEmployeeModal({ onClose, onCreated }) {
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
-          padding: '18px 24px',
-          borderBottom: '1px solid var(--border-light)',
+          padding: '20px 24px',
+          borderBottom: '1px solid var(--border-card)',
         }}>
           <div>
-            <h2 style={{ fontSize: '16px', fontWeight: '600', color: 'var(--text-main)', margin: 0 }}>
-              Add Employee
+            <h2 style={{ fontSize: '18px', fontWeight: '800', color: 'var(--obsidian)', margin: 0 }}>
+              Onboard Employee
             </h2>
-            <p style={{ fontSize: '12px', color: 'var(--text-muted)', margin: '2px 0 0' }}>
-              Add a new employee and initialize compensation baseline
+            <p style={{ fontSize: '13px', color: 'var(--text-muted)', margin: '2px 0 0' }}>
+              Add a new employee and initialize baseline compensation record
             </p>
           </div>
           <button
             onClick={onClose}
             style={{ background: 'transparent', border: 'none', cursor: 'pointer', color: 'var(--text-muted)' }}
           >
-            <X size={18} />
+            <X size={20} />
           </button>
         </div>
 
         {/* Form Body */}
-        <form onSubmit={handleSubmit} style={{ padding: '20px 24px' }}>
+        <form onSubmit={handleSubmit} style={{ padding: '24px' }}>
           {error && (
             <div style={{
               background: 'var(--rose-bg)',
               border: '1px solid var(--rose-border)',
               borderRadius: 'var(--radius-md)',
-              padding: '10px 14px',
+              padding: '12px 16px',
               display: 'flex',
               alignItems: 'center',
-              gap: '8px',
+              gap: '10px',
               color: 'var(--rose-text)',
-              marginBottom: '16px',
-              fontSize: '12px',
+              marginBottom: '18px',
+              fontSize: '13px',
             }}>
-              <AlertCircle size={15} />
+              <AlertCircle size={16} />
               <span>{error}</span>
             </div>
           )}
 
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
             <div className="form-group">
               <label className="form-label">Employee Code *</label>
               <input
@@ -139,7 +139,7 @@ export default function NewEmployeeModal({ onClose, onCreated }) {
             </div>
 
             <div className="form-group">
-              <label className="form-label">Status</label>
+              <label className="form-label">Employment Status</label>
               <select
                 value={formData.status}
                 onChange={(e) => setFormData({ ...formData, status: e.target.value })}
@@ -152,7 +152,7 @@ export default function NewEmployeeModal({ onClose, onCreated }) {
             </div>
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
             <div className="form-group">
               <label className="form-label">First Name *</label>
               <input
@@ -190,7 +190,7 @@ export default function NewEmployeeModal({ onClose, onCreated }) {
             />
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
             <div className="form-group">
               <label className="form-label">Department *</label>
               <select
@@ -217,7 +217,7 @@ export default function NewEmployeeModal({ onClose, onCreated }) {
             </div>
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
             <div className="form-group">
               <label className="form-label">Country *</label>
               <select
@@ -232,7 +232,7 @@ export default function NewEmployeeModal({ onClose, onCreated }) {
             </div>
 
             <div className="form-group">
-              <label className="form-label">Currency</label>
+              <label className="form-label">Currency (Auto-mapped)</label>
               <input
                 type="text"
                 readOnly
@@ -243,9 +243,9 @@ export default function NewEmployeeModal({ onClose, onCreated }) {
             </div>
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
             <div className="form-group">
-              <label className="form-label">Base Salary ({formData.currency}) *</label>
+              <label className="form-label">Starting Base Salary ({formData.currency}) *</label>
               <input
                 type="number"
                 step="any"
@@ -287,25 +287,26 @@ export default function NewEmployeeModal({ onClose, onCreated }) {
           <div style={{
             display: 'flex',
             justifyContent: 'flex-end',
-            gap: '10px',
-            marginTop: '20px',
+            gap: '12px',
+            marginTop: '22px',
             paddingTop: '16px',
-            borderTop: '1px solid var(--border-light)',
+            borderTop: '1px solid var(--border-card)',
           }}>
             <button
               type="button"
               onClick={onClose}
-              className="btn btn-secondary"
+              className="theme-btn-secondary"
               disabled={submitting}
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="btn btn-primary"
+              className="theme-btn-primary"
               disabled={submitting}
             >
-              {submitting ? 'Creating...' : 'Create Employee'}
+              <UserPlus size={16} />
+              <span>{submitting ? 'Creating...' : 'Create Employee Record'}</span>
             </button>
           </div>
         </form>

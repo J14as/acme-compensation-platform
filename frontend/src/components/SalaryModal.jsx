@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X, AlertCircle } from 'lucide-react';
+import { X, AlertCircle, TrendingUp, DollarSign } from 'lucide-react';
 import { Api } from '../services/api';
 
 const CHANGE_REASONS = [
@@ -16,7 +16,7 @@ export default function SalaryModal({ employee, onClose, onUpdated }) {
   const [reason, setReason] = useState('Annual Review');
   const [effectiveDate, setEffectiveDate] = useState(new Date().toISOString().split('T')[0]);
   const [notes, setNotes] = useState('');
-  const [changedBy, setChangedBy] = useState('Sarah Jenkins (HR Manager)');
+  const [changedBy, setChangedBy] = useState('Sarah Jenkins (HR Operations Lead)');
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState(null);
 
@@ -68,87 +68,90 @@ export default function SalaryModal({ employee, onClose, onUpdated }) {
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
-          padding: '18px 24px',
-          borderBottom: '1px solid var(--border-light)',
+          padding: '20px 24px',
+          borderBottom: '1px solid var(--border-card)',
         }}>
           <div>
-            <h2 style={{ fontSize: '16px', fontWeight: '600', color: 'var(--text-main)', margin: 0 }}>
-              Adjust Salary
+            <h2 style={{ fontSize: '18px', fontWeight: '800', color: 'var(--obsidian)', margin: 0 }}>
+              Adjust Compensation
             </h2>
-            <p style={{ fontSize: '12px', color: 'var(--text-muted)', margin: '2px 0 0' }}>
-              Updates employee salary and writes an immutable audit record
+            <p style={{ fontSize: '13px', color: 'var(--text-muted)', margin: '2px 0 0' }}>
+              Executes atomic salary update and writes immutable audit record
             </p>
           </div>
           <button
             onClick={onClose}
             style={{ background: 'transparent', border: 'none', cursor: 'pointer', color: 'var(--text-muted)' }}
           >
-            <X size={18} />
+            <X size={20} />
           </button>
         </div>
 
         {/* Employee Summary Banner */}
         <div style={{
           background: 'var(--bg-subtle)',
-          padding: '14px 24px',
-          borderBottom: '1px solid var(--border-light)',
+          padding: '16px 24px',
+          borderBottom: '1px solid var(--border-card)',
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
         }}>
           <div>
-            <div style={{ fontSize: '14px', fontWeight: '600', color: 'var(--text-main)' }}>
+            <div style={{ fontSize: '15px', fontWeight: '700', color: 'var(--obsidian)' }}>
               {employee.full_name}
             </div>
-            <div style={{ fontSize: '12px', color: 'var(--text-muted)' }}>
+            <div style={{ fontSize: '13px', color: 'var(--text-muted)' }}>
               {employee.employee_code} • {employee.job_title} ({employee.department})
             </div>
           </div>
           <div style={{ textAlign: 'right' }}>
-            <div style={{ fontSize: '11px', color: 'var(--text-muted)' }}>Current Base</div>
-            <div style={{ fontSize: '14px', fontWeight: '600', color: 'var(--text-main)', fontFamily: 'var(--font-mono)' }}>
+            <div style={{ fontSize: '12px', color: 'var(--text-muted)' }}>Current Base</div>
+            <div style={{ fontSize: '15px', fontWeight: '700', color: 'var(--obsidian)' }} className="tabular-nums">
               {employee.currency} {Number(employee.base_salary).toLocaleString()}
             </div>
           </div>
         </div>
 
         {/* Form Body */}
-        <form onSubmit={handleSubmit} style={{ padding: '20px 24px' }}>
+        <form onSubmit={handleSubmit} style={{ padding: '24px' }}>
           {error && (
             <div style={{
               background: 'var(--rose-bg)',
               border: '1px solid var(--rose-border)',
               borderRadius: 'var(--radius-md)',
-              padding: '10px 14px',
+              padding: '12px 16px',
               display: 'flex',
               alignItems: 'center',
-              gap: '8px',
+              gap: '10px',
               color: 'var(--rose-text)',
-              marginBottom: '16px',
-              fontSize: '12px',
+              marginBottom: '18px',
+              fontSize: '13px',
             }}>
-              <AlertCircle size={15} />
+              <AlertCircle size={16} />
               <span>{error}</span>
             </div>
           )}
 
           {/* Salary Adjustment Delta Preview */}
           <div style={{
-            background: 'var(--bg-subtle)',
-            border: '1px solid var(--border-light)',
+            background: 'var(--mint-bg)',
+            border: '1px solid var(--mint-border)',
             borderRadius: 'var(--radius-md)',
-            padding: '10px 14px',
-            marginBottom: '16px',
+            padding: '12px 16px',
+            marginBottom: '18px',
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'center',
           }}>
-            <span style={{ fontSize: '12px', color: 'var(--text-muted)', fontWeight: '500' }}>
-              Adjustment Delta:
-            </span>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: '600' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <TrendingUp size={16} color="var(--mint)" />
+              <span style={{ fontSize: '13px', color: 'var(--mint)', fontWeight: '700' }}>
+                Compensation Delta
+              </span>
+            </div>
+            <div style={{ fontSize: '14px', fontWeight: '800' }} className="tabular-nums">
               {baseDiff >= 0 ? (
-                <span style={{ color: 'var(--emerald-text)' }}>
+                <span style={{ color: 'var(--mint)' }}>
                   +{employee.currency} {baseDiff.toLocaleString()} (+{pctChange}%)
                 </span>
               ) : (
@@ -159,8 +162,7 @@ export default function SalaryModal({ employee, onClose, onUpdated }) {
             </div>
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px' }}>
-            {/* New Base Salary */}
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
             <div className="form-group">
               <label className="form-label">New Base Salary ({employee.currency}) *</label>
               <input
@@ -175,7 +177,6 @@ export default function SalaryModal({ employee, onClose, onUpdated }) {
               />
             </div>
 
-            {/* New Bonus */}
             <div className="form-group">
               <label className="form-label">New Annual Bonus ({employee.currency})</label>
               <input
@@ -190,10 +191,9 @@ export default function SalaryModal({ employee, onClose, onUpdated }) {
             </div>
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px' }}>
-            {/* Change Reason */}
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
             <div className="form-group">
-              <label className="form-label">Reason *</label>
+              <label className="form-label">Adjustment Reason *</label>
               <select
                 value={reason}
                 onChange={(e) => setReason(e.target.value)}
@@ -206,7 +206,6 @@ export default function SalaryModal({ employee, onClose, onUpdated }) {
               </select>
             </div>
 
-            {/* Effective Date */}
             <div className="form-group">
               <label className="form-label">Effective Date *</label>
               <input
@@ -219,9 +218,8 @@ export default function SalaryModal({ employee, onClose, onUpdated }) {
             </div>
           </div>
 
-          {/* Changed By */}
           <div className="form-group">
-            <label className="form-label">Authorized By</label>
+            <label className="form-label">Authorizing Official</label>
             <input
               type="text"
               value={changedBy}
@@ -230,14 +228,13 @@ export default function SalaryModal({ employee, onClose, onUpdated }) {
             />
           </div>
 
-          {/* Notes */}
           <div className="form-group">
-            <label className="form-label">Reason Justification / Notes</label>
+            <label className="form-label">Adjustment Justification / Notes</label>
             <textarea
               rows={2}
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
-              placeholder="e.g. Q3 annual performance review."
+              placeholder="e.g. Approved during Q3 performance calibration."
               className="form-textarea"
             />
           </div>
@@ -246,25 +243,26 @@ export default function SalaryModal({ employee, onClose, onUpdated }) {
           <div style={{
             display: 'flex',
             justifyContent: 'flex-end',
-            gap: '10px',
-            marginTop: '20px',
+            gap: '12px',
+            marginTop: '22px',
             paddingTop: '16px',
-            borderTop: '1px solid var(--border-light)',
+            borderTop: '1px solid var(--border-card)',
           }}>
             <button
               type="button"
               onClick={onClose}
-              className="btn btn-secondary"
+              className="theme-btn-secondary"
               disabled={submitting}
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="btn btn-primary"
+              className="theme-btn-mint"
               disabled={submitting}
             >
-              {submitting ? 'Updating...' : 'Save Changes'}
+              <DollarSign size={16} />
+              <span>{submitting ? 'Committing...' : 'Commit Salary Adjustment'}</span>
             </button>
           </div>
         </form>

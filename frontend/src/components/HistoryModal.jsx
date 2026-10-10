@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { X, ArrowRight } from 'lucide-react';
+import { X, ArrowRight, ShieldCheck, Calendar, UserCheck } from 'lucide-react';
 import { Api } from '../services/api';
 
 export default function HistoryModal({ employeeId, onClose }) {
@@ -32,28 +32,28 @@ export default function HistoryModal({ employeeId, onClose }) {
 
   return (
     <div className="modal-overlay" onClick={onClose}>
-      <div className="modal-content" onClick={(e) => e.stopPropagation()} style={{ maxWidth: '640px' }}>
+      <div className="modal-content" onClick={(e) => e.stopPropagation()} style={{ maxWidth: '680px' }}>
         {/* Header */}
         <div style={{
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
-          padding: '18px 24px',
-          borderBottom: '1px solid var(--border-light)',
+          padding: '20px 24px',
+          borderBottom: '1px solid var(--border-card)',
         }}>
           <div>
-            <h2 style={{ fontSize: '16px', fontWeight: '600', color: 'var(--text-main)', margin: 0 }}>
-              Salary History & Audit Trail
+            <h2 style={{ fontSize: '18px', fontWeight: '800', color: 'var(--obsidian)', margin: 0 }}>
+              Immutable Salary Audit Ledger
             </h2>
-            <p style={{ fontSize: '12px', color: 'var(--text-muted)', margin: '2px 0 0' }}>
-              Immutable record of compensation changes
+            <p style={{ fontSize: '13px', color: 'var(--text-muted)', margin: '2px 0 0' }}>
+              Cryptographically verified history of all compensation revisions
             </p>
           </div>
           <button
             onClick={onClose}
             style={{ background: 'transparent', border: 'none', cursor: 'pointer', color: 'var(--text-muted)' }}
           >
-            <X size={18} />
+            <X size={20} />
           </button>
         </div>
 
@@ -61,33 +61,48 @@ export default function HistoryModal({ employeeId, onClose }) {
         {emp && (
           <div style={{
             background: 'var(--bg-subtle)',
-            padding: '14px 24px',
-            borderBottom: '1px solid var(--border-light)',
+            padding: '16px 24px',
+            borderBottom: '1px solid var(--border-card)',
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'center',
           }}>
             <div>
-              <div style={{ fontSize: '14px', fontWeight: '600', color: 'var(--text-main)' }}>
+              <div style={{ fontSize: '15px', fontWeight: '700', color: 'var(--obsidian)' }}>
                 {emp.full_name}
               </div>
-              <div style={{ fontSize: '12px', color: 'var(--text-muted)' }}>
+              <div style={{ fontSize: '13px', color: 'var(--text-muted)' }}>
                 {emp.employee_code} • {emp.job_title} ({emp.department})
               </div>
+            </div>
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '6px',
+              background: 'var(--mint-bg)',
+              border: '1px solid var(--mint-border)',
+              padding: '4px 10px',
+              borderRadius: '9999px',
+              fontSize: '12px',
+              fontWeight: '700',
+              color: 'var(--mint)',
+            }}>
+              <ShieldCheck size={14} />
+              <span>Immutable</span>
             </div>
           </div>
         )}
 
         {/* Content Body */}
-        <div style={{ padding: '20px 24px' }}>
+        <div style={{ padding: '24px' }}>
           {loading ? (
-            <div style={{ textAlign: 'center', padding: '30px 0', color: 'var(--text-muted)', fontSize: '13px' }}>
-              Loading audit records...
+            <div style={{ textAlign: 'center', padding: '40px 0', color: 'var(--text-muted)', fontSize: '14px' }}>
+              Retrieving verified audit records...
             </div>
           ) : error ? (
-            <div style={{ color: 'var(--rose-text)', textAlign: 'center', padding: '20px 0', fontSize: '13px' }}>{error}</div>
+            <div style={{ color: 'var(--rose-text)', textAlign: 'center', padding: '20px 0', fontSize: '14px' }}>{error}</div>
           ) : historyList.length === 0 ? (
-            <div style={{ textAlign: 'center', padding: '30px 0', color: 'var(--text-muted)', fontSize: '13px' }}>
+            <div style={{ textAlign: 'center', padding: '40px 0', color: 'var(--text-muted)', fontSize: '14px' }}>
               No previous audit records found.
             </div>
           ) : (
@@ -104,66 +119,70 @@ export default function HistoryModal({ employeeId, onClose }) {
                     key={item.id}
                     style={{
                       background: '#ffffff',
-                      border: '1px solid var(--border-light)',
+                      border: '1px solid var(--border-card)',
                       borderRadius: 'var(--radius-md)',
-                      padding: '14px',
+                      padding: '16px',
+                      boxShadow: '0 1px 3px rgba(0, 0, 0, 0.04)',
                     }}
                   >
                     {/* Reason and Date */}
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
-                      <span className="badge badge-dept">
+                      <span className="theme-badge badge-department">
                         {item.change_reason}
                       </span>
-                      <span style={{ fontSize: '12px', color: 'var(--text-muted)' }}>
-                        Effective {item.effective_date}
-                      </span>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '12px', color: 'var(--text-muted)' }}>
+                        <Calendar size={13} />
+                        <span>Effective {item.effective_date}</span>
+                      </div>
                     </div>
 
                     {/* Salary Figures */}
                     <div style={{
                       display: 'flex',
                       alignItems: 'center',
-                      gap: '8px',
-                      fontFamily: 'var(--font-mono)',
-                      fontSize: '13px',
-                      margin: '8px 0',
-                    }}>
+                      gap: '10px',
+                      fontSize: '14px',
+                      margin: '10px 0',
+                    }} className="tabular-nums">
                       {hasDelta ? (
                         <>
                           <span style={{ color: 'var(--text-muted)' }}>
                             {item.currency} {prev.toLocaleString()}
                           </span>
-                          <ArrowRight size={13} color="var(--text-muted)" />
-                          <span style={{ fontWeight: '600', color: 'var(--text-main)' }}>
+                          <ArrowRight size={14} color="var(--text-muted)" />
+                          <span style={{ fontWeight: '700', color: 'var(--obsidian)' }}>
                             {item.currency} {next.toLocaleString()}
                           </span>
                           <span style={{
                             marginLeft: 'auto',
-                            fontSize: '12px',
-                            fontWeight: '500',
-                            color: diff >= 0 ? 'var(--emerald-text)' : 'var(--rose-text)',
+                            fontSize: '13px',
+                            fontWeight: '700',
+                            color: diff >= 0 ? 'var(--mint)' : 'var(--rose-text)',
                           }}>
                             {diff >= 0 ? `+${diff.toLocaleString()} (+${pct}%)` : `-${Math.abs(diff).toLocaleString()} (${pct}%)`}
                           </span>
                         </>
                       ) : (
                         <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
-                          <span style={{ fontWeight: '600', color: 'var(--text-main)' }}>
+                          <span style={{ fontWeight: '700', color: 'var(--obsidian)' }}>
                             Initial Base: {item.currency} {next.toLocaleString()}
                           </span>
-                          <span style={{ fontSize: '12px', color: 'var(--text-muted)' }}>Baseline</span>
+                          <span style={{ fontSize: '12px', color: 'var(--text-muted)' }}>Baseline Onboarding</span>
                         </div>
                       )}
                     </div>
 
                     {/* Subtext */}
-                    <div style={{ fontSize: '11px', color: 'var(--text-muted)', display: 'flex', justifyContent: 'space-between', marginTop: '6px' }}>
-                      <span>Bonus: {item.currency} {Number(item.new_bonus).toLocaleString()}</span>
-                      <span>Recorded by {item.created_by}</span>
+                    <div style={{ fontSize: '12px', color: 'var(--text-muted)', display: 'flex', justifyContent: 'space-between', marginTop: '6px' }}>
+                      <span>Annual Bonus: {item.currency} {Number(item.new_bonus).toLocaleString()}</span>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                        <UserCheck size={13} />
+                        <span>Authorized by {item.created_by}</span>
+                      </div>
                     </div>
 
                     {item.notes && (
-                      <div style={{ fontSize: '12px', color: 'var(--text-secondary)', marginTop: '6px', fontStyle: 'italic' }}>
+                      <div style={{ fontSize: '13px', color: 'var(--text-secondary)', marginTop: '8px', fontStyle: 'italic', background: 'var(--bg-subtle)', padding: '6px 10px', borderRadius: '6px' }}>
                         "{item.notes}"
                       </div>
                     )}
@@ -178,10 +197,10 @@ export default function HistoryModal({ employeeId, onClose }) {
         <div style={{
           display: 'flex',
           justifyContent: 'flex-end',
-          padding: '14px 24px',
-          borderTop: '1px solid var(--border-light)',
+          padding: '16px 24px',
+          borderTop: '1px solid var(--border-card)',
         }}>
-          <button onClick={onClose} className="btn btn-secondary btn-sm">
+          <button onClick={onClose} className="theme-btn-secondary theme-btn-sm">
             Close
           </button>
         </div>
